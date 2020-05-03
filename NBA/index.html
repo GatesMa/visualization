@@ -1,0 +1,2625 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.js"></script>
+    <script src="js/scroll.js"></script>
+</head>
+<style>
+    .Main{
+        width:1500px;
+        height:600px;
+        /*border-style:solid;*/
+        /*border-color: yellow;*/
+    }
+    .main{
+        width: 400px;
+        height:550px;
+        /*border-style: solid;*/
+        /*border-width: 1px;*/
+        /*border-color:black;*/
+        position:absolute;
+        right:0px;
+        display: inline-block;
+
+    }
+    .up{
+        width: 400px;
+        height:150px;
+        /*border-style: solid;*/
+        /*border-width: 0.5px;*/
+        /*border-color:black;*/
+        background-color: #003366;
+        float:top;
+    }
+    .imformation{
+        width:270px;
+        height:80px;
+        text-align:right;
+        font-size:14px;
+        color:white;
+        display:inline-block;
+        float:right;
+    }
+    .photo{
+        width:130px;
+        height:88px;
+        display:inline-block;
+        float:left;
+    }
+    .radar{
+        width:400px;
+        height:400px;
+        background-color: #F5F5F5;
+    }
+
+
+    .touxiang1{
+        width:500px;
+        height: 600px;
+        /*border-style:solid;*/
+        /*border-color: green;*/
+        display: inline-block;
+        margin-top: 20px;
+    }
+    .touxiang2{
+        width:500px;
+        height: 600px;
+        /*border-style:solid;*/
+        /*border-color: cornflowerblue;*/
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    p{
+        height:5px;
+    }
+    h3{
+        height:10px;
+    }
+
+</style>
+
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div class="Main">
+    <div class="touxiang1">
+        <img id="button_ouwen" src="img/photo/qi/kaili-ouwen.png" onclick="change(this)" width="120" height="80">
+        <img id="button_zhanmusi" src="img/photo/qi/zhanmusi.png" onclick="change(this)" width="120" height="80">
+        <img id="button_kaiwen-lefu" src="img/photo/qi/kaiwen-lefu.png" onclick="change(this)" width="120" height="80">
+        <img id="button_telisitan-tangpusen" src="img/photo/qi/telisitan-tangpusen.png" onclick="change(this)" width="120" height="80">
+        <img id="button_JR-simisi" src="img/photo/qi/JR-simisi.png" onclick="change(this)" width="120" height="80">
+        <img id="button_xiangbote" src="img/photo/qi/xiangbote.png" onclick="change(this)" width="120" height="80">
+        <img id="button_jiefusen" src="img/photo/qi/jiefusen.png" onclick="change(this)" width="120" height="80">
+        <img id="button_qianning-fulai" src="img/photo/qi/qianning-fulai.png" onclick="change(this)" width="120" height="80">
+        <img id="button_maxiu" src="img/photo/qi/maxiu.png" onclick="change(this)" width="120" height="80">
+        <img id="button_dengtai-qiongsi" src="img/photo/qi/dengtai-qiongsi.png" onclick="change(this)" width="120" height="80">
+        <img id="button_weilianmusi" src="img/photo/qi/weilianmusi.png" onclick="change(this)" width="120" height="80">
+        <img id="button_mozigefu" src="img/photo/qi/mozigefu.png" onclick="change(this)" width="120" height="80">
+        <img id="button_qiongsi" src="img/photo/qi/qiongsi.png" onclick="change(this)" width="120" height="80">
+    </div>
+    <div class="touxiang2">
+        <img id="button_gelin" src="img/photo/yong/gelin.png" onclick="change(this)" width="120" height="80">
+        <img id="button_baensi" src="img/photo/yong/baensi.png" onclick="change(this)" width="120" height="80">
+        <img id="button_sidifen-kuli" src="img/photo/yong/sidifen-kuli.png" onclick="change(this)" width="120" height="80">
+        <img id="button_bogute" src="img/photo/yong/bogute.png" onclick="change(this)" width="120" height="80">
+        <img id="button_kelai-tangpusen" src="img/photo/yong/kelai-tangpusen.png" onclick="change(this)" width="120" height="80">
+        <img id="button_liwensidun" src="img/photo/yong/liwensidun.png" onclick="change(this)" width="120" height="80">
+        <img id="button_yigedala" src="img/photo/yong/yigedala.png" onclick="change(this)" width="120" height="80">
+        <img id="button_babosa" src="img/photo/yong/babosa.png" onclick="change(this)" width="120" height="80">
+        <img id="button_aizeli" src="img/photo/yong/aizeli.png" onclick="change(this)" width="120" height="80">
+        <img id="button_walaiqiao" src="img/photo/yong/walaiqiao.png" onclick="change(this)" width="120" height="80">
+        <img id="button_kelake" src="img/photo/yong/kelake.png" onclick="change(this)" width="120" height="80">
+        <img id="button_sibeici" src="img/photo/yong/sibeici.png" onclick="change(this)" width="120" height="80">
+        <img id="button_lashen" src="img/photo/yong/lashen.png" onclick="change(this)" width="120" height="80">
+    </div>
+    <div id="main-G1-kaili-ouwen" class="main" style="z-index: 999">
+        <div id="up-G1-kaili-ouwen" class="up">
+            <h3 style="text-align: center;color:white">凯里-欧文</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Kyrie Andrew Irving</p>
+            <div class="photo">
+                <img src="img/photo/qi/kaili-ouwen.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#2</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 后卫 &nbsp 1.91m  &nbsp 88kg<br/>
+                    生日：1992年03月23日 &nbsp 选秀：2011年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-kaili-ouwen" class="radar">
+            </div>
+
+
+    </div>
+    <div id="main-G1-zhanmusi" class="main" >
+        <div id="up-G1-zhanmusi" class="up">
+            <h3 style="text-align: center;color:white">勒布朗-詹姆斯</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">LeBron James</p>
+            <div class="photo">
+                <img src="img/photo/qi/zhanmusi.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#23</b></p>
+                <p style="margin-right:10px">骑士 前锋-后卫 &nbsp 2.03m  113kg<br/>
+                    生日：1984年12月30日 &nbsp 选秀：2003年</p>
+            </div>
+
+        </div>
+
+        <div id="G1-zhanmusi" class="radar"></div>
+
+
+    </div>
+    <div id="main-G1-kaiwen-lefu" class="main" >
+        <div id="up-G1-kaiwen-lefu" class="up">
+            <h3 style="text-align: center;color:white">凯文-乐福</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Kevin Wesley Love</p>
+            <div class="photo">
+                <img src="img/photo/qi/kaiwen-lefu.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#0</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 前锋 &nbsp 2.08m  114kg<br/>
+                    生日：1988年9月7日 &nbsp 选秀：2008年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-kaiwen-lefu" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-telisitan-tangpusen" class="main" >
+        <div id="up-G1-telisitan-tangpusen" class="up">
+            <h3 style="text-align: center;color:white">特里斯坦-汤普森</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Tristan Trevor James Thompson</p>
+            <div class="photo">
+                <img src="img/photo/qi/telisitan-tangpusen.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#13</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 前锋 &nbsp 2.08m  108kg<br/>
+                    生日：1991年3月13日 &nbsp 选秀：2011年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-telisitan-tangpusen" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-JR-simisi" class="main" >
+        <div id="up-G1-JR-simisi" class="up">
+            <h3 style="text-align: center;color:white">J.R.史密斯</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Earl Smith III</p>
+            <div class="photo">
+                <img src="img/photo/qi/JR-simisi.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#5</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 后卫 &nbsp 1.98m  102kg<br/>
+                    生日：1985年9月9日 &nbsp 选秀：2004年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-JR-simisi" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-xiangbote" class="main" >
+        <div id="up-G1-xiangbote" class="up">
+            <h3 style="text-align: center;color:white">伊曼-香珀特</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Iman Asante Shumpert</p>
+            <div class="photo">
+                <img src="img/photo/qi/xiangbote.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#4</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 后卫 &nbsp 1.96m  100kg<br/>
+                    生日：1990年6月26日 &nbsp 选秀：2011年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-xiangbote" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-jiefusen" class="main" >
+        <div id="up-G1-jiefusen" class="up">
+            <h3 style="text-align: center;color:white">理查德-杰弗森</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Richard Allen Jefferson</p>
+            <div class="photo">
+                <img src="img/photo/qi/jiefusen.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#24</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 前锋 &nbsp 2.01m  106kg<br/>
+                    生日：1980年6月21日 &nbsp 选秀：2001年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-jiefusen" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-qianning-fulai" class="main" >
+        <div id="up-G1-qianning-fulai" class="up">
+            <h3 style="text-align: center;color:white">钱宁-弗莱</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Channing Thomas Frye</p>
+            <div class="photo">
+                <img src="img/photo/qi/qianning-fulai.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#9</b></p>
+                <p style="margin-right:10px">骑士 &nbsp前锋-中锋 &nbsp 2.11m  116kg<br/>
+                    生日：1983年5月17日 &nbsp 选秀：2005年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-qianning-fulai" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-maxiu" class="main" >
+        <div id="up-G1-maxiu" class="up">
+            <h3 style="text-align: center;color:white">马修-德拉维多瓦</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Matthew Dellavedova</p>
+            <div class="photo">
+                <img src="img/photo/qi/maxiu.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#8</b></p>
+                <p style="margin-right:10px">骑士 &nbsp前锋-中锋 &nbsp 1.93m  91kg<br/>
+                    生日：1990年9月8日 &nbsp 选秀：非选秀球员</p>
+            </div>
+
+        </div>
+
+            <div id="G1-maxiu" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-dengtai-qiongsi" class="main" >
+        <div id="up-G1-dengtai-qiongsi" class="up">
+            <h3 style="text-align: center;color:white">邓台-琼斯</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Dahntay Lavall Jones</p>
+            <div class="photo">
+                <img src="img/photo/qi/dengtai-qiongsi.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#30</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 后卫 &nbsp 1.98m  95kg<br/>
+                    生日：1980年12月27日 &nbsp 选秀：2003年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-dengtai-qiongsi" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-weilianmusi" class="main" >
+        <div id="up-G1-weilianmusi" class="up">
+            <h3 style="text-align: center;color:white">莫里斯-威廉姆斯</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Maurice Williams</p>
+            <div class="photo">
+                <img src="img/photo/qi/weilianmusi.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#52</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 后卫 &nbsp 1.85m  90kg<br/>
+                    生日：1982年12月19日 &nbsp 选秀：2003年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-weilianmusi" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-mozigefu" class="main" >
+        <div id="up-G1-mozigefu" class="up">
+            <h3 style="text-align: center;color:white">季莫费-莫兹戈夫</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Timofey Pavlovich Mozgov</p>
+            <div class="photo">
+                <img src="img/photo/qi/mozigefu.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#20</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 中锋 &nbsp 2.16m  125kg<br/>
+                    生日：1986年7月16日 &nbsp 选秀：非选秀球员</p>
+            </div>
+
+        </div>
+
+            <div id="G1-mozigefu" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-qiongsi" class="main" >
+        <div id="up-G1-qiongsi" class="up">
+            <h3 style="text-align: center;color:white">詹姆斯-琼斯</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">James Andrew Jones</p>
+            <div class="photo">
+                <img src="img/photo/qi/qiongsi.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#1</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 前锋 &nbsp 2.03m  99kg<br/>
+                    生日：1980年10月4日 &nbsp 选秀：2003年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-qiongsi" class="radar">
+
+            </div>
+
+
+    </div>
+
+    <div id="main-G1-gelin" class="main" >
+        <div id="up-G1-gelin" class="up">
+            <h3 style="text-align: center;color:white">德雷蒙德-格林</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Draymond Green</p>
+            <div class="photo">
+                <img src="img/photo/yong/gelin.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#23</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 前锋 &nbsp 2.01m  104kg<br/>
+                    生日：1990年3月4日 &nbsp 选秀：2012年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-gelin" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-baensi" class="main" >
+        <div id="up-G1-baensi" class="up">
+            <h3 style="text-align: center;color:white">哈里森-巴恩斯</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Harrison Barnes</p>
+            <div class="photo">
+                <img src="img/photo/yong/baensi.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#40</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 前锋 &nbsp 2.03m  102kg<br/>
+                    生日：1992年5月30日 &nbsp 选秀：2012年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-baensi" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-sidifen-kuli" class="main" >
+        <div id="up-G1-sidifen-kuli" class="up">
+            <h3 style="text-align: center;color:white">斯蒂芬-库里</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Wardell Stephen Curry II</p>
+            <div class="photo">
+                <img src="img/photo/yong/sidifen-kuli.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#30</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 后卫 &nbsp 1.91m  86kg<br/>
+                    生日：1988年3月14日 &nbsp 选秀：2009年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-sidifen-kuli" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-bogute" class="main" >
+        <div id="up-G1-bogute" class="up">
+            <h3 style="text-align: center;color:white">安德鲁-博古特</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Andrew Michael Bogut</p>
+            <div class="photo">
+                <img src="img/photo/yong/bogute.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#12</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 中锋 &nbsp 2.13m  118kg<br/>
+                    生日：1984年11月28日 &nbsp 选秀：2005年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-bogute" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-kelai-tangpusen" class="main" >
+        <div id="up-G1-kelai-tangpusen" class="up">
+            <h3 style="text-align: center;color:white">克莱-汤普森</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Klay Alexander Thompson</p>
+            <div class="photo">
+                <img src="img/photo/yong/kelai-tangpusen.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#11</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 后卫 &nbsp 2.01m  98kg<br/>
+                    生日：1990年2月8日 &nbsp 选秀：2011年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-kelai-tangpusen" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-liwensidun" class="main" >
+        <div id="up-G1-liwensidun" class="up">
+            <h3 style="text-align: center;color:white">肖恩-利文斯顿</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Shaun Patrick Livingston</p>
+            <div class="photo">
+                <img src="img/photo/yong/liwensidun.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#34</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 后卫 &nbsp 2.01m  83kg<br/>
+                    生日：1985年9月11日 &nbsp 选秀：2004年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-liwensidun" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-yigedala" class="main" >
+        <div id="up-G1-yigedala" class="up">
+            <h3 style="text-align: center;color:white">安德烈-伊格达拉</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Andre Tyler Iguodala</p>
+            <div class="photo">
+                <img src="img/photo/yong/yigedala.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#9</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 后卫-前锋 &nbsp 1.98m  94kg<br/>
+                    生日：1984年1月28日 &nbsp 选秀：2004年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-yigedala" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-babosa" class="main" >
+        <div id="up-G1-babosa" class="up">
+            <h3 style="text-align: center;color:white">莱昂德罗-巴博萨</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Leandro Mateus Barbosa</p>
+            <div class="photo">
+                <img src="img/photo/yong/babosa.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#19</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 后卫 &nbsp 1.91m  88kg<br/>
+                    生日：1982年11月28日 &nbsp 选秀：2003年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-babosa" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-aizeli" class="main" >
+        <div id="up-G1-aizeli" class="up">
+            <h3 style="text-align: center;color:white">费斯图斯-艾泽里</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Festus Ezeli</p>
+            <div class="photo">
+                <img src="img/photo/yong/aizeli.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#31</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 中锋 &nbsp 2.11m  120kg<br/>
+                    生日：1989年10月21日 &nbsp 选秀：2012年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-aizeli" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-walaiqiao" class="main" >
+        <div id="up-G1-walaiqiao" class="up">
+            <h3 style="text-align: center;color:white">安德森-瓦莱乔</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Anderson Franca Varejao</p>
+            <div class="photo">
+                <img src="img/photo/yong/walaiqiao.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#18</b></p>
+                <p style="margin-right:10px">骑士 &nbsp 前锋-中锋 &nbsp 2.11m  124kg<br/>
+                    生日：1982年9月28日 &nbsp 选秀：2004年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-walaiqiao" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-kelake" class="main" >
+        <div id="up-G1-kelake" class="up">
+            <h3 style="text-align: center;color:white">伊恩-克拉克</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Ian Clark</p>
+            <div class="photo">
+                <img src="img/photo/yong/kelake.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#21</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 后卫 &nbsp 1.91m  79kg<br/>
+                    生日：1991年3月7日 &nbsp 选秀：非选秀球员</p>
+            </div>
+
+        </div>
+
+            <div id="G1-kelake" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-sibeici" class="main" >
+        <div id="up-G1-sibeici" class="up">
+            <h3 style="text-align: center;color:white">马利斯-斯贝茨</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">JMarreese Speights</p>
+            <div class="photo">
+                <img src="img/photo/yong/sibeici.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#5</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 前锋 &nbsp 2.08m  116kg<br/>
+                    生日：1987年8月4日 &nbsp 选秀：2008年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-sibeici" class="radar">
+
+            </div>
+
+
+    </div>
+    <div id="main-G1-lashen" class="main" >
+        <div id="up-G1-lashen" class="up">
+            <h3 style="text-align: center;color:white">布兰登-拉什</h3>
+            <p style="text-align: center;font-size: 10px;color: #666666">Brandon Leray Rush</p>
+            <div class="photo">
+                <img src="img/photo/yong/lashen.png" width="130" height="88">
+            </div>
+            <div class="imformation" >
+                <p style="font-size: 20px;margin-right:10px"><b>#4</b></p>
+                <p style="margin-right:10px">勇士 &nbsp 前锋 &nbsp 1.98m  95kg<br/>
+                    生日：1985年7月7日 &nbsp 选秀：2008年</p>
+            </div>
+
+        </div>
+
+            <div id="G1-lashen" class="radar">
+
+            </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1_1 = echarts.init(document.getElementById('G1-kaili-ouwen'));
+    var myChart1_2 = echarts.init(document.getElementById('G1-zhanmusi'));
+    var myChart1_3 = echarts.init(document.getElementById('G1-kaiwen-lefu'));
+    var myChart1_4 = echarts.init(document.getElementById('G1-telisitan-tangpusen'));
+    var myChart1_5 = echarts.init(document.getElementById('G1-JR-simisi'));
+    var myChart1_6 = echarts.init(document.getElementById('G1-xiangbote'));
+    var myChart1_7 = echarts.init(document.getElementById('G1-jiefusen'));
+    var myChart1_8 = echarts.init(document.getElementById('G1-qianning-fulai'));
+    var myChart1_9 = echarts.init(document.getElementById('G1-maxiu'));
+    var myChart1_10 = echarts.init(document.getElementById('G1-dengtai-qiongsi'));
+    var myChart1_11 = echarts.init(document.getElementById('G1-weilianmusi'));
+    var myChart1_12 = echarts.init(document.getElementById('G1-mozigefu'));
+    var myChart1_13 = echarts.init(document.getElementById('G1-qiongsi'));
+
+    var myChart2_1 = echarts.init(document.getElementById('G1-gelin'));
+    var myChart2_2 = echarts.init(document.getElementById('G1-baensi'));
+    var myChart2_3 = echarts.init(document.getElementById('G1-sidifen-kuli'));
+    var myChart2_4 = echarts.init(document.getElementById('G1-bogute'));
+    var myChart2_5 = echarts.init(document.getElementById('G1-kelai-tangpusen'));
+    var myChart2_6 = echarts.init(document.getElementById('G1-liwensidun'));
+    var myChart2_7 = echarts.init(document.getElementById('G1-yigedala'));
+    var myChart2_8 = echarts.init(document.getElementById('G1-babosa'));
+    var myChart2_9 = echarts.init(document.getElementById('G1-aizeli'));
+    var myChart2_10 = echarts.init(document.getElementById('G1-walaiqiao'));
+    var myChart2_11 = echarts.init(document.getElementById('G1-kelake'));
+    var myChart2_12 = echarts.init(document.getElementById('G1-sibeici'));
+    var myChart2_13 = echarts.init(document.getElementById('G1-lashen'));
+    // 指定图表的配置项和数据
+
+    var option1_1= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [26, 3, 0, 4,3],
+                        name:'凯里-欧文',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_2= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [23, 2, 0, 9,12],
+                        name:'勒布朗-詹姆斯',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_3= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [17, 1, 0, 2,13],
+                        name:'凯文-乐福',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_4= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [10, 0, 1, 0,12],
+                        name:'特里斯坦-汤普森',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_5= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [3, 0, 1, 1,1],
+                        name:'J.R.史密斯',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_6= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [3, 0, 0, 0,1],
+                        name:'伊曼-香珀特',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_7= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [3, 0, 0, 0,2],
+                        name:'理查德-杰弗森',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_8= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [2, 0, 0, 0,1],
+                        name:'钱宁-弗莱',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_9= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [2, 0, 0, 1,0],
+                        name:'马修-德拉维多瓦',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_10= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 0, 0, 0,0],
+                        name:'邓台-琼斯',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_11= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 1, 0, 0,0],
+                        name:'莫里斯-威廉姆斯',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_12= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 0, 1, 0,2],
+                        name:'季莫费-莫兹戈夫',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option1_13= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 0, 0, 0,0],
+                        name:'詹姆斯-琼斯',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+
+    var option2_1= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [16, 4, 1, 7,11],
+                        name:'德雷蒙德-格林',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_2= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [13, 1, 0, 2,1],
+                        name:'哈里森-巴恩斯',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_3= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [11, 0, 0, 6,5],
+                        name:'斯蒂芬-库里',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_4= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [10, 0, 0, 2,3],
+                        name:'安德鲁-博古特',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_5= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black',
+                opacity:1,
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                splitArea:{
+                  areaStyle:{
+                      opacity:1,
+                  }
+                },
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [9, 0, 2, 2,5],
+                        name:'克莱-汤普森',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_6= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [20, 1, 0, 3,4],
+                        name:'肖恩-利文斯顿',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_7= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [12, 1, 1, 6,7],
+                        name:'安德烈-伊格达拉',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_8= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [11, 0, 0, 0,1],
+                        name:'莱昂德罗-巴博萨',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_9= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                        
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [2, 1, 0, 0,3],
+                        name:'费斯图斯-艾泽里',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_10= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 0, 0, 1,1],
+                        name:'安德森-瓦莱乔',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_11= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 0, 0, 0,0],
+                        name:'伊恩-克拉克',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_12= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},//这个地方要问一下有没有最大值
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 0, 0, 0,0],
+                        name:'马利斯-斯贝茨',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+    var option2_13= {
+        title: {
+            text: '\n2015-2016年度决赛G1',
+            textStyle:{
+                fontWeight:'normal',
+                fontSize : 12,
+                color:'black'
+            }
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        radar: [
+            {
+                indicator: [
+                    {text: '得分',max:26},
+                    {text: '抢断',max:4},
+                    {text: '盖帽',max:2},
+                    {text: '助攻',max:9},
+                    {text: '篮板',max:13}
+                ],
+                center: ['50%', '50%'],
+                radius: 120,
+                opacity: 1,
+                name: {
+                    formatter: '【{value}】',
+                    textStyle: {
+                        color: 'black'
+                    }
+                },
+
+            }
+        ],
+        series: [
+            {
+                type: 'radar',
+                tooltip: {
+                    trigger: 'item'
+                },
+                data: [
+                    {
+                        value: [0, 1, 0, 0,0],
+                        name:'布兰登-拉什',
+                        lineStyle:{
+                            color:'#72ACD1',
+                        },
+                        symbol:'none',
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.RadialGradient(0.5, 0.5, 1, [
+                                {
+                                    color: '#B8D3E4',
+                                    offset: 0
+                                },
+                                {
+                                    color: '#72ACD1',
+                                    offset: 1
+                                }
+                            ])
+
+                        }
+
+                    }
+                ]
+            }
+
+        ]
+    };
+
+
+    function change(x){
+        for(var i=3;i<document.getElementsByTagName("div").length;i++){
+            var obj=document.getElementsByTagName("div")[i];
+            obj.style.zIndex=0;
+        }
+        //骑士
+        if(x.id=="button_ouwen"){
+            document.getElementById("main-G1-kaili-ouwen").style.zIndex=1;
+
+        }
+        else if(x.id=="button_zhanmusi"){
+            document.getElementById("main-G1-zhanmusi").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_kaiwen-lefu"){
+            document.getElementById("main-G1-kaiwen-lefu").style.zIndex=1;
+
+        }
+
+
+        else if(x.id=="button_telisitan-tangpusen"){
+            document.getElementById("main-G1-telisitan-tangpusen").style.zIndex=1;
+
+
+        }
+
+        else if(x.id=="button_JR-simisi"){
+            document.getElementById("main-G1-JR-simisi").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_xiangbote"){
+            document.getElementById("main-G1-xiangbote").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_jiefusen"){
+            document.getElementById("main-G1-jiefusen").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_qianning-fulai"){
+            document.getElementById("main-G1-qianning-fulai").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_maxiu"){
+            document.getElementById("main-G1-maxiu").style.zIndex=1;
+
+        }
+
+
+        else if(x.id=="button_dengtai-qiongsi"){
+            document.getElementById("main-G1-dengtai-qiongsi").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_weilianmusi"){
+            document.getElementById("main-G1-weilianmusi").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_mozigefu"){
+            document.getElementById("main-G1-mozigefu").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_qiongsi"){
+            document.getElementById("main-G1-qiongsi").style.zIndex=1;
+
+        }
+
+        //勇士
+        else if(x.id=="button_gelin"){
+            document.getElementById("main-G1-gelin").style.zIndex=1;
+
+        }
+        else if(x.id=="button_baensi"){
+            document.getElementById("main-G1-baensi").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_sidifen-kuli"){
+            document.getElementById("main-G1-sidifen-kuli").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_bogute"){
+            document.getElementById("main-G1-bogute").style.zIndex=1;
+
+        }
+
+
+        else if(x.id=="button_kelai-tangpusen"){
+            document.getElementById("main-G1-kelai-tangpusen").style.zIndex=1;
+
+        }
+
+
+        else if(x.id=="button_liwensidun"){
+            document.getElementById("main-G1-liwensidun").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_yigedala"){
+            document.getElementById("main-G1-yigedala").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_babosa"){
+            document.getElementById("main-G1-babosa").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_aizeli"){
+            document.getElementById("main-G1-aizeli").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_walaiqiao"){
+            document.getElementById("main-G1-walaiqiao").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_kelake"){
+            document.getElementById("main-G1-kelake").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_sibeici"){
+            document.getElementById("main-G1-sibeici").style.zIndex=1;
+
+        }
+
+        else if(x.id=="button_lashen"){
+            document.getElementById("main-G1-lashen").style.zIndex=1;
+           
+        }
+
+    }
+    // 使用刚指定的配置项和数据显示图表。
+    myChart1_1.setOption(option1_1);
+    myChart1_2.setOption(option1_2);
+    myChart1_3.setOption(option1_3);
+    myChart1_4.setOption(option1_4);
+    myChart1_5.setOption(option1_5);
+    myChart1_6.setOption(option1_6);
+    myChart1_7.setOption(option1_7);
+    myChart1_8.setOption(option1_8);
+    myChart1_9.setOption(option1_9);
+    myChart1_10.setOption(option1_10);
+    myChart1_11.setOption(option1_11);
+    myChart1_12.setOption(option1_12);
+    myChart1_13.setOption(option1_13);
+
+    myChart2_1.setOption(option2_1);
+    myChart2_2.setOption(option2_2);
+    myChart2_3.setOption(option2_3);
+    myChart2_4.setOption(option2_4);
+    myChart2_5.setOption(option2_5);
+    myChart2_6.setOption(option2_6);
+    myChart2_7.setOption(option2_7);
+    myChart2_8.setOption(option2_8);
+    myChart2_9.setOption(option2_9);
+    myChart2_10.setOption(option2_10);
+    myChart2_11.setOption(option2_11);
+    myChart2_12.setOption(option2_12);
+    myChart2_13.setOption(option2_13);
+
+</script>
+
+</body>
+</html>
