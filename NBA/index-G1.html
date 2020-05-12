@@ -1,0 +1,3342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NBA_Visualization_G1</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/onepage-scroll.css">
+    <script src="js/echarts.js"></script>
+    <script src="js/jquery-3.4.1.js"></script>
+    <script src="js/jquery.onepage-scroll.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/echarts-wordcloud.js"></script>
+    <link rel="shortcut icon" href="img/bitbug_favicon.ico" type="image/x-icon" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+<style>
+    .bodystyle{
+        background: #f1e5d1;  /* fallback for old browsers */
+    }
+    .avatar{
+        width:10%;
+        height:10%;
+        margin-right: 1.5vh;
+        margin-top:2%;
+        cursor: pointer;
+    }
+    .main{
+        width: 100%;
+        height:72vh;
+        /*border-style: solid;*/
+        /*border-width: 1px;*/
+        /*border-color:black;*/
+        display: inline-block;
+
+    }
+    .up{
+        width: 100%;
+        height:19vh;
+        /*border-style: solid;*/
+        /*border-width: 0.5px;*/
+        /*border-color:black;*/
+        background-color: #fabe00;
+    }
+    .imformation{
+        width:270px;
+        height:80px;
+        text-align:right;
+        font-size:14px;
+        color:white;
+        display:inline-block;
+        float:right;
+    }
+    .photo{
+        width:130px;
+        height:88px;
+        display:inline-block;
+        float:left;
+    }
+    .radar{
+        width:100%;
+        height:29vh;
+
+    }
+    #Img{
+        background:url("img/qiuchang1.png");
+        background-repeat: no-repeat;
+        background-size:32vh auto;
+        background-position:top center;
+    }
+    .nav-item{
+        text-align: center;
+        border-bottom: grey solid 3px ;
+        border-right: grey solid 3px ;
+        font-size: 1.8rem;
+        font-weight: bold;
+        padding-top:0.5%;
+        padding-bottom: 0.5%;
+
+    }
+    .nav-item:hover{
+        background-color: #d61400;
+        color: white;
+        cursor: pointer;
+    }
+    .icons{
+        padding:1%;
+    }
+    .icons:hover{
+        border-radius: 15%;
+        background-color: #8c8c8c;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+
+<body class="bodystyle">
+<div class="indx">
+    <div class="page page1" style="height:100vh;margin-bottom: 5vh">
+        <div class="col-md-3" style="height:100%;border-right: black solid 1px;padding:0">
+            <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:2%;margin-bottom: 1%">单节进攻效率对比</div>
+            <div class="col-md-12" id="att_eff" style="height:51vh;border-bottom: black solid 1px;padding:0"></div>
+            <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:2%">单节观众评论词云</div>
+            <div class="col-md-12" style="height:42vh;padding-top: 2vh;padding:2%">
+                <img src="img/wordcloud.png" style="width:100%">
+            </div>
+        </div>
+        <div class="col-md-6" style="padding:0">
+            <div class="col-md-12" style="padding:0.5vw;font-size: 40px;text-align: center;border-bottom: black 1px solid">
+                <img src="img/G1.png" style="width:80%">
+            </div>
+            <div class="nav" style="width:100%">
+                <div class="nav-item col-md-2" onclick="location='index-G2.html'">G2</div>
+                <div class="nav-item col-md-2" onclick="location='index-G3.html'">G3</div>
+                <div class="nav-item col-md-2" onclick="location='index-G4.html'">G4</div>
+                <div class="nav-item col-md-2" onclick="location='index-G5.html'">G5</div>
+                <div class="nav-item col-md-2" onclick="location='index-G6.html'">G6</div>
+                <div class="nav-item col-md-2" onclick="location='index-G7.html'"style="border-right:0">G7</div>
+            </div>
+            <div class="col-md-1" style="margin-top: 1vh;">
+                <select id="sec" >
+                    <option>第一节</option>
+                    <option>第二节</option>
+                    <option>第三节</option>
+                    <option>第四节</option>
+
+                </select>
+            </div>
+            <div class="col-md-8 col-md-offset-1" id="main_view" style="padding-left:0;width:100%;height:50vh;background-image: url(img/main_view.png);background-size: auto 50vh;background-repeat:no-repeat";></div>
+            <div class="col-md-12" id="timeline" style="width:100%;height:8vh;border-bottom: black solid 1px"></div>
+            <div class="col-md-4" id="progress" style="height:30vh;border-right: black solid 1px;padding:0;margin-top: -1%"></div>
+            <div class="col-md-8">
+                <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:1%">胜率预测曲线</div>
+                <div class="col-md-12" id="winapp" style="width:100%;height:27vh;padding:0;margin-top: -9%">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3" style="height:100%;border-left: black solid 1px;padding:0">
+           <div class="col-md-12" style="padding:2% 0 2% 0">
+               <div class="col-md-4" style="padding:0">
+                   <img src="img/cl.png" style="width:90%;height:auto">
+               </div>
+               <div class="col-md-8" style="padding-top: 1%;padding-left:0;padding-right:0 ">
+                   <img id="button_zhanmusi" src="img/photo/qi/zhanmusi.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_kaiwen-lefu" src="img/photo/qi/kaiwen-lefu.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_telisitan-tangpusen" src="img/photo/qi/telisitan-tangpusen.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_JR-simisi" src="img/photo/qi/JR-simisi.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_xiangbote" src="img/photo/qi/xiangbote.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_jiefusen" src="img/photo/qi/jiefusen.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_qianning-fulai" src="img/photo/qi/qianning-fulai.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_maxiu" src="img/photo/qi/maxiu.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_dengtai-qiongsi" src="img/photo/qi/dengtai-qiongsi.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_weilianmusi" src="img/photo/qi/weilianmusi.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_qiongsi" src="img/photo/qi/qiongsi.png" onclick="avacli(this.id)" class="avatar">
+                   <img id="button_ouwen" src="img/photo/qi/kaili-ouwen.png" onclick="avacli(this.id)" class="avatar">
+
+               </div>
+           </div>
+            <div class="col-md-12" style="padding:2% 0 2% 0">
+                <div class="col-md-4" style="padding:0">
+                    <img src="img/gs.png" style="width:120%;height:auto">
+                </div>
+                <div class="col-md-8" style="padding-top: 1%;padding-left:0;padding-right:0 ">
+                    <img id="button_gelin" src="img/photo/yong/gelin.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_baensi" src="img/photo/yong/baensi.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_sidifen-kuli" src="img/photo/yong/sidifen-kuli.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_bogute" src="img/photo/yong/bogute.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_kelai-tangpusen" src="img/photo/yong/kelai-tangpusen.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_liwensidun" src="img/photo/yong/liwensidun.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_yigedala" src="img/photo/yong/yigedala.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_babosa" src="img/photo/yong/babosa.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_aizeli" src="img/photo/yong/aizeli.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_walaiqiao" src="img/photo/yong/walaiqiao.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_kelake" src="img/photo/yong/kelake.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_sibeici" src="img/photo/yong/sibeici.png" onclick="avacli(this.id)" class="avatar">
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding:0">
+                <div id="main-G1-kaili-ouwen" class="main">
+                    <div id="ups" class="up">
+                        <div id="qiplayer" style="font-size:3vh;padding-top:1vh;text-align: center;color:black;font-weight: bold">凯里-欧文</div>
+                        <p id="qienplayer" style="text-align:center;font-size: 2vh;margin-bottom:0;color: #666666">Kyrie Andrew Irving</p>
+                        <div class="col-md-3">
+                            <img id="tx" src="img/photo/qi/kaili-ouwen.png" style="width:auto;height:9vh">
+                        </div>
+                        <div class="col-md-9" style="color: black;text-align: right">
+                            <p style="font-size: 3vh"><b>#2</b></p>
+                            <p style="text-align: right">骑士 &nbsp 后卫 &nbsp 1.91m  &nbsp 88kg<br/>
+                                生日：1992年03月23日 &nbsp 选秀：2011年</p>
+                        </div>
+                    </div>
+                    <div style="font-size:140%;text-align: center;font-weight: bold;padding-bottom: 1%;padding-top: 3%">
+                        <i class="fa fa-male icons" id="selectone" onclick="avacli(this.id)" style="margin-right:4%;border-radius: 15%;background-color: #8c8c8c;color: white;"></i>2015-2016年度决赛G1
+                        <div class="icons" id="selecttwo" onclick="avacli(this.id)" style="margin-left:1%;display: inline-block">
+                            <i class="fa fa-male"></i>
+                            <i class="fa fa-male"></i>
+                        </div>
+                    </div>
+                    <div id="G1-kaili-ouwen0" class="radar"></div>
+                    <div id="Img">
+                        <div id="t1" style="width:100%;height:32vh;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page page2" style="height:100vh">
+        <div class="careerAll">
+            <div class="row" style="height:100vh;">
+                <div class="leftBar col-md-6" style="height:100vh;">
+                    <!-- 图标Div -->
+                    <div class="left_1" style="height:50vh;">
+                        <div class="row" style="height:100%;margin-left: 10px;">
+                            <!-- 勇士 -->
+                            <div class="col-md-3" style="height:100%;">
+                                <div style="height:50%;width: 100%;text-align: center;">
+                                    <img src="img/warrior.png" alt="Warriors" class="img-circle" style="display: inline-block;">
+                                </div>
+                                <div style="height:50%;width: 100%;text-align: center;">
+                                    <div style="width:70%;height:30px;margin: 0 auto;font-size: 20px;
+                            font-weight: 700;margin-top: 10px;border-bottom: 3px solid cornflowerblue;">金州勇士</div>
+                                    <div style="width:70%;height:50px;margin: 0 auto;font-size: 16px;
+                            font-weight: 500;margin-top: 5px;">Golden State Warriors</div>
+                                    <div style="width:80%;height:30px;margin: 0 auto;font-size: 16px;
+                            font-weight: 400;">73胜9负/西部第一</div>
+                                </div>
+                            </div>
+                            <!-- 雷达图 -->
+                            <div id="main1" class="col-md-6" style="height:100%;">
+                            </div>
+                            <!-- 骑士 -->
+                            <div class="col-md-3" style="height:100%;">
+                                <div style="height:50%;width: 100%;text-align: center;">
+                                    <img src="img/Cleveland.png" alt="Warriors" class="img-circle"
+                                         style="display: inline-block;">
+                                </div>
+                                <div style="height:50%;width: 100%;text-align: center;">
+                                    <div style="width:70%;height:30px;margin: 0 auto;font-size: 20px;
+                            font-weight: 700;margin-top: 10px;border-bottom: 3px solid black;">克里夫兰骑士</div>
+                                    <div style="width:70%;height:50px;margin: 0 auto;font-size: 16px;
+                            font-weight: 500;margin-top: 5px;">Cleveland Cavaliers</div>
+                                    <div style="width:80%;height:30px;margin: 0 auto;font-size: 16px;
+                            font-weight: 400;">57胜25负/东部第一</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="main2" class="left_2" style="height:50vh; margin:0 auto;margin-left: 10px;"></div>
+                </div>
+                <!-- 右边栏 -->
+                <div class="rightBar col-md-6" style="height:100vh;">
+                    <div id="main3" class="right_1" style="height:45vh;"></div>
+                    <div id="main4" class="right_2" style="height:55vh; width:99%;margin:0 auto;margin-left: -10px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<!--胜率预测柱状图-->
+<script>
+    var myChart = echarts.init(document.getElementById('winapp'));
+
+    option = {
+        xAxis: {
+            type: 'category',
+            data: ['4min', '8min', '12min', '16min', '20min', '24min', '28min','32min', '36min', '40min', '41min', '42min', '43min', '44min','45min', '46min', '47min']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        dataZoom: [
+            {   // 这个dataZoom组件，默认控制x轴。
+                type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+                start: 0,      // 左边在 10% 的位置。
+                end: 30         // 右边在 60% 的位置。
+            }
+        ],
+        series: [{
+            data: [120, 200, 150, 80, 70, 110, 130,120, 200, 150, 80, 70, 110, 130,120, 200, 150],
+            type: 'bar',
+            showBackground: true,
+            backgroundStyle: {
+                color: '#fabe00'
+            },
+            color:'#7d0000'
+        }]
+    };
+    myChart.setOption(option);
+
+</script>
+
+<!--词云图-->
+<script>
+    var myChart = echarts.init(document.getElementById('wordcloud'));
+
+    option = {
+
+        tooltip: {
+            show: true
+        },
+        series: [{
+            type: "wordCloud",
+            gridSize:2,
+            shape:'diamond',
+            sizeRange: [13, 20],
+            width:1200,
+            height:400,
+            textStyle: {
+                normal: {
+                    color: function() {
+                        return 'rgb(' + [
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160),
+                            Math.round(Math.random() * 160)
+                        ].join(',') + ')';
+                    }
+                },
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowColor: '#333'
+                }
+            },
+            data: [{
+                name: " 没有",
+                value: 30,
+            },
+
+
+                {
+                    name: " 断流",
+                    value: 3
+                },
+                {
+                    name: " 套装",
+                    value: 3
+                },
+                {
+                    name: " 一样",
+                    value: 3
+                },
+                {
+                    name: " 发票",
+                    value: 3
+                },
+                {
+                    name: " 买回来",
+                    value: 3
+                },
+                {
+                    name: " 软件",
+                    value: 3
+                },
+                {
+                    name: " 还好",
+                    value: 3
+                },
+                {
+                    name: " 以后",
+                    value: 3
+                },
+                {
+                    name: " 下单",
+                    value: 3
+                },
+                {
+                    name: " 打游戏",
+                    value: 3
+                },
+                {
+                    name: " 我们",
+                    value: 3
+                },
+                {
+                    name: " 但是",
+                    value: 3
+                },
+                {
+                    name: " 一部",
+                    value: 3
+                },
+                {
+                    name: " 王者",
+                    value: 3
+                },
+                {
+                    name: " 不怎么样",
+                    value: 3
+                },
+                {
+                    name: " 看看",
+                    value: 3
+                },
+                {
+                    name: " 自己",
+                    value: 3
+                },
+                {
+                    name: " 里面",
+                    value: 3
+                },
+                {
+                    name: " 边框",
+                    value: 3
+                },
+                {
+                    name: " 看着",
+                    value: 3
+                },
+                {
+                    name: " 要死",
+                    value: 3
+                },
+                {
+                    name: " 原因",
+                    value: 3
+                },
+                {
+                    name: " 新机",
+                    value: 3
+                },
+                {
+                    name: " 不如",
+                    value: 3
+                },
+                {
+                    name: " 老是",
+                    value: 3
+                },
+                {
+                    name: " 购买",
+                    value: 3
+                },
+                {
+                    name: " 更好",
+                    value: 3
+                },
+                {
+                    name: " 相机",
+                    value: 3
+                },
+                {
+                    name: " 竟然",
+                    value: 3
+                },
+                {
+                    name: " 一分",
+                    value: 3
+                },
+                {
+                    name: " 天才",
+                    value: 3
+                },
+                {
+                    name: " 荣耀",
+                    value: 3
+                },
+                {
+                    name: " 正常",
+                    value: 3
+                },
+                {
+                    name: " 回复",
+                    value: 3
+                },
+                {
+                    name: " 联系",
+                    value: 3
+                },
+                {
+                    name: " 总体",
+                    value: 3
+                },
+                {
+                    name: " 反应",
+                    value: 3
+                },
+                {
+                    name: " 老爸",
+                    value: 3
+                },
+                {
+                    name: " 星期",
+                    value: 3
+                },
+                {
+                    name: " 半个",
+                    value: 3
+                },
+                {
+                    name: " 打电话",
+                    value: 3
+                },
+                {
+                    name: " 不是",
+                    value: 3
+                },
+                {
+                    name: " 保护膜",
+                    value: 3
+                },
+                {
+                    name: " 充电器",
+                    value: 3
+                },
+                {
+                    name: " 买不到",
+                    value: 2
+                },
+                {
+                    name: " 老子",
+                    value: 2
+                },
+                {
+                    name: " 差评",
+                    value: 2
+                },
+                {
+                    name: " 这么",
+                    value: 2
+                },
+                {
+                    name: " 真香",
+                    value: 2
+                },
+                {
+                    name: " 真是",
+                    value: 2
+                },
+                {
+                    name: " 三天",
+                    value: 2
+                },
+                {
+                    name: " 填写内容",
+                    value: 2
+                },
+                {
+                    name: " 帮别人",
+                    value: 2
+                },
+                {
+                    name: " 终于",
+                    value: 2
+                },
+                {
+                    name: " 有时候",
+                    value: 2
+                },
+                {
+                    name: " 极致",
+                    value: 2
+                },
+                {
+                    name: " 还有",
+                    value: 2
+                },
+                {
+                    name: " 希望",
+                    value: 2
+                },
+                {
+                    name: " 必须",
+                    value: 2
+                },
+                {
+                    name: " 好像",
+                    value: 2
+                },
+                {
+                    name: " 严重",
+                    value: 2
+                },
+                {
+                    name: " 反应速度",
+                    value: 2
+                },
+                {
+                    name: " 后面",
+                    value: 2
+                },
+                {
+                    name: " 音乐",
+                    value: 2
+                },
+                {
+                    name: " 商品",
+                    value: 2
+                },
+                {
+                    name: " 哈哈",
+                    value: 2
+                },
+                {
+                    name: " 垃圾",
+                    value: 2
+                },
+                {
+                    name: " 好用",
+                    value: 2
+                },
+                {
+                    name: " 突出",
+                    value: 2
+                },
+                {
+                    name: " 价钱",
+                    value: 2
+                },
+                {
+                    name: " 耍猴",
+                    value: 2
+                },
+                {
+                    name: " 磕碰",
+                    value: 2
+                },
+                {
+                    name: " 几次",
+                    value: 2
+                },
+                {
+                    name: " 失灵",
+                    value: 2
+                },
+                {
+                    name: " 支持",
+                    value: 2
+                },
+                {
+                    name: " 快充",
+                    value: 2
+                },
+                {
+                    name: " 意思",
+                    value: 2
+                },
+                {
+                    name: " 失败",
+                    value: 2
+                },
+                {
+                    name: " 整整",
+                    value: 2
+                },
+                {
+                    name: " 没收",
+                    value: 2
+                },
+                {
+                    name: " 已经",
+                    value: 2
+                },
+                {
+                    name: " 无法",
+                    value: 2
+                },
+                {
+                    name: " 方面",
+                    value: 2
+                },
+                {
+                    name: " 为啥",
+                    value: 2
+                },
+                {
+                    name: " 喜欢",
+                    value: 2
+                },
+                {
+                    name: " 套餐",
+                    value: 2
+                },
+                {
+                    name: " 完全",
+                    value: 2
+                },
+                {
+                    name: " 专业",
+                    value: 2
+                },
+                {
+                    name: " 选择",
+                    value: 2
+                },
+                {
+                    name: " 48mp",
+                    value: 2
+                },
+                {
+                    name: " 无线",
+                    value: 2
+                },
+                {
+                    name: " 一个月",
+                    value: 2
+                },
+                {
+                    name: " 不过",
+                    value: 2
+                },
+                {
+                    name: " ldquo",
+                    value: "-"
+                },
+                {
+                    name: " rdquo",
+                    value: "-"
+                },
+                {
+                    name: " 这种",
+                    value: 2
+                },
+                {
+                    name: " 送货",
+                    value: 2
+                },
+                {
+                    name: " 卡死",
+                    value: 2
+                },
+                {
+                    name: " 来看",
+                    value: 2
+                },
+                {
+                    name: " 糊弄人",
+                    value: 2
+                },
+                {
+                    name: " note7",
+                    value: 2
+                },
+                {
+                    name: " 时间",
+                    value: 2
+                },
+                {
+                    name: " 短信",
+                    value: 2
+                },
+                {
+                    name: " 滑落",
+                    value: 2
+                },
+                {
+                    name: " 那样",
+                    value: 2
+                },
+                {
+                    name: " vivo",
+                    value: 2
+                },
+                {
+                    name: " 防水",
+                    value: 2
+                },
+                {
+                    name: " 等待",
+                    value: 2
+                },
+                {
+                    name: " 直播",
+                    value: 2
+                },
+                {
+                    name: " 难受",
+                    value: 2
+                },
+                {
+                    name: " 四个",
+                    value: 2
+                },
+                {
+                    name: " 到手",
+                    value: 2
+                },
+                {
+                    name: " 发现",
+                    value: 2
+                },
+                {
+                    name: " 掉电",
+                    value: 2
+                },
+                {
+                    name: " 华为",
+                    value: 2
+                },
+                {
+                    name: " 再也",
+                    value: 2
+                },
+                {
+                    name: " 不用",
+                    value: 2
+                },
+                {
+                    name: " 给力",
+                    value: 2
+                },
+                {
+                    name: " 两天",
+                    value: 2
+                },
+                {
+                    name: " 立马",
+                    value: 2
+                },
+                {
+                    name: " 两周",
+                    value: 2
+                },
+                {
+                    name: " 处理器",
+                    value: 2
+                },
+                {
+                    name: " 关机",
+                    value: 2
+                },
+                {
+                    name: " 要么",
+                    value: 2
+                },
+                {
+                    name: " 满血",
+                    value: 2
+                },
+                {
+                    name: " 不会",
+                    value: 2
+                },
+                {
+                    name: " 定金",
+                    value: 2
+                },
+                {
+                    name: " 付款",
+                    value: 2
+                },
+                {
+                    name: " 心情",
+                    value: 2
+                },
+                {
+                    name: " 另外",
+                    value: 2
+                },
+                {
+                    name: " 游戏",
+                    value: 2
+                },
+                {
+                    name: " 公司",
+                    value: 2
+                },
+                {
+                    name: " 按键",
+                    value: 2
+                },
+                {
+                    name: " 卡顿",
+                    value: 2
+                },
+                {
+                    name: " 晚上",
+                    value: 2
+                },
+                {
+                    name: " 百分之",
+                    value: 2
+                },
+                {
+                    name: " 手机信号",
+                    value: 2
+                },
+                {
+                    name: " 一下",
+                    value: 2
+                },
+                {
+                    name: " 开学",
+                    value: 2
+                },
+                {
+                    name: " 上班",
+                    value: 2
+                },
+                {
+                    name: " 上天",
+                    value: 2
+                },
+                {
+                    name: " 配送",
+                    value: 2
+                },
+                {
+                    name: " 最后",
+                    value: 2
+                },
+                {
+                    name: " 太慢",
+                    value: 2
+                },
+                {
+                    name: " 手机套",
+                    value: 2
+                },
+                {
+                    name: " 笨重",
+                    value: 2
+                },
+                {
+                    name: " 半年",
+                    value: 2
+                },
+                {
+                    name: " 屏险",
+                    value: 2
+                },
+                {
+                    name: " 先发",
+                    value: 2
+                },
+                {
+                    name: " 不灵敏",
+                    value: 2
+                },
+                {
+                    name: " 硬度",
+                    value: 2
+                },
+                {
+                    name: " 这次",
+                    value: 2
+                },
+                {
+                    name: " 性能",
+                    value: 2
+                },
+                {
+                    name: " 介绍",
+                    value: 2
+                },
+                {
+                    name: " 卡针",
+                    value: 2
+                },
+                {
+                    name: " 不理",
+                    value: 2
+                },
+                {
+                    name: " 这是",
+                    value: 2
+                },
+                {
+                    name: " 买来",
+                    value: 2
+                },
+                {
+                    name: " 两次",
+                    value: 2
+                },
+                {
+                    name: " 网络",
+                    value: 2
+                },
+                {
+                    name: " 就裂",
+                    value: 2
+                },
+                {
+                    name: " 没用",
+                    value: 2
+                },
+                {
+                    name: " 多次",
+                    value: 2
+                },
+                {
+                    name: " 钢化",
+                    value: 2
+                },
+                {
+                    name: " 一星怪",
+                    value: 1
+                },
+                {
+                    name: " 新款",
+                    value: 1
+                },
+                {
+                    name: " 你行",
+                    value: 1
+                },
+                {
+                    name: " 没送",
+                    value: 1
+                },
+                {
+                    name: " 一个多",
+                    value: 1
+                },
+                {
+                    name: " 礼拜",
+                    value: 1
+                },
+                {
+                    name: " 只能",
+                    value: 1
+                },
+                {
+                    name: " 价位",
+                    value: 1
+                },
+                {
+                    name: " 闪退",
+                    value: 1
+                },
+                {
+                    name: " 抢到",
+                    value: 1
+                },
+                {
+                    name: " 其它",
+                    value: 1
+                },
+                {
+                    name: " 便宜",
+                    value: 1
+                },
+                {
+                    name: " 两百",
+                    value: 1
+                },
+                {
+                    name: " 盈利",
+                    value: 1
+                },
+                {
+                    name: " 机智",
+                    value: 1
+                },
+                {
+                    name: " 更新换代",
+                    value: 1
+                },
+                {
+                    name: " 太乱",
+                    value: 1
+                },
+                {
+                    name: " 赔付",
+                    value: 1
+                },
+                {
+                    name: " 自营",
+                    value: 1
+                },
+                {
+                    name: " 产品",
+                    value: 1
+                },
+                {
+                    name: " 手持",
+                    value: 1
+                },
+                {
+                    name: " 夜景",
+                    value: 1
+                },
+                {
+                    name: " 机子",
+                    value: 1
+                },
+                {
+                    name: " 拆过",
+                    value: 1
+                }
+            ],
+        }]
+
+    };    myChart.setOption(option);
+
+</script>
+<!--热力图-->
+<script>
+
+    var myChart = echarts.init(document.getElementById('t1'));
+    option = {
+        xAxis: {
+            min:0,
+            max:15,
+            show:false,
+            splitLine:{
+                show:false
+            }
+        },
+        yAxis: {
+            min:0,
+            max:15,
+            show:false,
+            splitLine:{
+                show:false
+            }
+        },
+        series: [{
+            symbolSize: 15,
+            data: [
+                [10.0, 8.04],
+                [8.0, 6.95],
+                [13.0, 7.58],
+                [9.0, 8.81],
+                [11.0, 8.33],
+            ],
+            itemStyle : {
+                normal: {
+                    borderWidth:1,
+                    color: "red",
+                    opacity:1,
+                    lineStyle: {
+                        type: 'solid'
+                    },
+                    label:{show:false}
+                }
+            },
+            type: 'scatter'
+        }]
+    };
+    myChart.setOption(option);
+</script>
+
+
+<!--时间进度图-->
+<!--进攻效率值图-->
+<script>
+    var myChart = echarts.init(document.getElementById('att_eff'));
+    var option = {
+        color:['#7d0000','#fabe00'],
+        angleAxis: {
+        },
+        radiusAxis: {
+            type: 'category',
+            data: ['第一节', '第二节', '第三节', '第四节'],
+            z: 10,
+            axisLabel: {
+                show: true,
+                textStyle: {
+                    color: '#060861',
+                    fontWeight:"bold"
+                }
+            },
+        },
+        polar: {
+        },
+        series: [{
+            type: 'bar',
+            data: [1, 2, 3, 4],
+            coordinateSystem: 'polar',
+            name: '骑士',
+            stack: 'a'
+        }, {
+            type: 'bar',
+            data: [2, 4, 6, 8],
+            coordinateSystem: 'polar',
+            name: '勇士',
+            stack: 'a'
+        }],
+        legend: {
+            show: true,
+            data: ['骑士', '勇士'],
+            textStyle:{
+                fontWeight:"bold"
+            }
+        }
+    };
+    myChart.setOption(option);
+
+</script>
+<script>
+    $(function(){
+        $('.indx').onepage_scroll({
+            sectionContainer: '.page',
+            direction: 'horizontal'
+        });
+    });
+</script>
+<!--篮球场主视图-->
+<script>
+    var myChart = echarts.init(document.getElementById('timeline'));
+    var myChart1 = echarts.init(document.getElementById('main_view'));
+    var myChart2 = echarts.init(document.getElementById('progress'));
+
+
+    var dataset1=[
+        {"name":"詹姆斯","position":[4,6],"team":"骑士","time":"11:31","score":"2"},
+        {"name":"库里","position":[2,9],"team":"勇士","time":"10:28","score":"2"},
+        {"name":"杜兰特","position":[5,3],"team":"勇士","time":"8:54","score":"2"},
+        {"name":"格林","position":[7,9],"team":"勇士","time":"7:41","score":"2"},
+        {"name":"伊戈达拉","position":[2,1],"team":"勇士","time":"7:21","score":"2"},
+        {"name":"汤普森","position":[10,3],"team":"勇士","time":"6:32","score":"2"},
+        {"name": "JR史密斯","position":[5,1],"team":"骑士","time":"6:13","score":"2"},
+        {"name":"乐福","position":[6,8],"team":"骑士","time":"5:22","score":"2"},
+        {"name":"香波特","position":[9,0],"team":"骑士","time":"5:10","score":"2"},
+        {"name":"琼斯","position":[5,4],"team":"骑士","time":"4:37","score":"2"},
+        {"name":"钱宁","position":[7,4],"team":"骑士","time":"3:32","score":"2"},
+        {"name":'利文斯顿',"position":[12,7],"team":"勇士","time":"1:31","score":"2"}
+    ];
+    var dataset2=[];
+    var dataset3=[];
+    var dataset4=[];
+    var dataset=[];
+    var sectors=document.getElementById("sec");
+    var idx=sectors.selectedIndex;
+    console.log("qwe"+idx);
+    if(idx==0){
+        dataset=dataset1;
+    }
+    if(idx==1){
+        dataset=dataset2;
+    }
+    if(idx==2){
+        dataset=dataset3;
+    }
+    if(idx==3){
+        dataset=dataset4;
+    }
+    var tim=11.31;
+    var listqi=[];<!--区分骑士勇士数据-->
+    var listyong=[];
+    var flag;<!--区分当前添加的是骑士还是勇士数据-->
+    if(dataset[0].team=="骑士") {
+        flag=1;
+        listqi.push(dataset[0].position)
+    }
+    else{
+        flag=0;
+        listyong.push(dataset[0].position)
+    }
+    var test=[(flag==1?listqi[0]:listyong[0])];
+    console.log(test);
+    option = {
+        timeline: {
+            axisType: 'category',
+            data: ["11:31","10:28","8:54","7:41","7:21","6:32","6:13","5:22","5:10","4:37","3:32","1:31"],
+            autoPlay: false,
+            x: '0%',
+            x2: '3%',
+            y: '18%',
+        }
+    };
+    option1 = {
+        tooltip:{
+            trigger:'item',
+            formatter: function(params) {
+                var result="";
+                result+=dataset[params.dataIndex].team+" : "+dataset[params.dataIndex].name+"<br />"+params.marker+dataset[params.dataIndex].time+" : "+dataset[params.dataIndex].score+"分";
+                return result;
+            }
+        },
+        xAxis: {
+            min:0,
+            max:20,
+            show:false,
+            splitLine:{
+                show:false
+            }
+        },
+        yAxis: {
+            min:0,
+            max:10,
+            show:false,
+            splitLine:{
+                show:false
+            }
+        },
+        series: [
+            {
+                type: 'effectScatter',
+                symbolSize: 20,
+                data: test,
+                itemStyle : {
+                    normal: {
+                        color: 'purple',
+                        opacity:1,
+                        lineStyle: {
+                            type: 'solid'
+                        },
+                        label:{show:false}
+                    }
+                },
+            },
+            {
+                name:(flag==1?"骑士":"勇士"),
+                symbolSize: 20,
+                data: test,
+                itemStyle : {
+                    normal: {
+                        borderWidth:1,
+                        color: (flag==1?"red":"blue"),
+                        opacity:1,
+                        lineStyle: {
+                            type: 'solid'
+                        },
+                        label:{show:false}
+                    }
+                },
+                type: 'scatter'
+            },
+        ]
+    };
+    option2 = {
+        title: {
+            text: '\n单节比赛时间进度',
+            x:'center',
+            textStyle:{
+                fontSize: 20,color:'black',
+            }
+        },
+        tooltip: {
+            formatter: "{a} <br/>{c} {b}"
+        },
+        x:'10%',
+        series : [
+            {
+                center:["50%","60%"],
+                name: '比赛时间',
+                type: 'gauge',
+                z: 3,
+                min: 0,
+                max: 12,
+                splitNumber: 12,
+                radius: '80%',
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        width: 8,
+                        color: [[0.2, '#3434c2'], [0.8, '#d58100'], [1, '#c72800']]
+                    },
+                },
+                axisTick: {            // 坐标轴小标记
+                    length: 11,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length: 13,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                axisLabel: {
+                    textStyle:{
+                        fontWeight:'bold',
+                    },
+                },
+                title: {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder',
+                    fontSize: 15,
+                },
+                detail: {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    formatter: function (value) {
+                        value = (value + '').split('.');
+                        value.length < 2 && (value.push('00'));
+                        return ('00' + value[0]).slice(-2)
+                            + '.' + (value[1] + '00').slice(0, 2);
+                    },
+                    fontWeight: 'bolder',
+                    borderRadius: 3,
+                    backgroundColor: '#444',
+                    borderColor: '#aaa',
+                    shadowBlur: 5,
+                    shadowColor: '#333',
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 3,
+                    borderWidth: 2,
+                    textBorderColor: '#000',
+                    textBorderWidth: 2,
+                    textShadowBlur: 2,
+                    textShadowColor: '#fff',
+                    textShadowOffsetX: 0,
+                    textShadowOffsetY: 0,
+                    fontFamily: 'Arial',
+                    width: 30,
+                    color: '#eee',
+                    fontSize:10,
+                    rich: {}
+                },
+                data: [{value: tim, name: '比赛进度'}]
+            }
+        ]
+    };
+
+    var ind=0;
+    myChart.on('timelinechanged', function(timelineIndex){
+        console.log(timelineIndex.currentIndex);
+        var arrIndex= parseInt(timelineIndex.currentIndex);
+        myChart1.clear();
+        myChart2.clear();
+        test=[];
+        tim=((Number(dataset[arrIndex].time.split(":")[0])+Number(dataset[arrIndex].time.split(":")[1])/60)).toFixed(2);
+        if(arrIndex<ind&&arrIndex!=0){//往回倒
+            if(dataset[arrIndex+1].team=="骑士") {
+                listqi.pop();
+                test.push(dataset[arrIndex].position)
+
+            }
+            else{
+                listyong.pop();
+                test.push(dataset[arrIndex].position)
+            }
+        }
+        else{
+            if(arrIndex==11&&ind==0){
+                listqi=[];listyong=[];
+                test[0]=dataset[dataset.length-1].position;
+                flag=(dataset[dataset.length-1].team=="骑士"?1:0);
+                for(let temp in dataset){
+                    if(dataset[temp].team=="骑士")listqi.push(dataset[temp].position);
+                    else listyong.push(dataset[temp].position);
+                }
+            }
+            else{
+                if(arrIndex==0){
+                    listqi=[];
+                    listyong=[];
+                }
+                test.push(dataset[arrIndex].position);
+                if(dataset[arrIndex].team=="骑士") {
+                    flag=1;
+                    listqi.push(dataset[arrIndex].position)
+                }
+                else{
+                    flag=0;
+                    listyong.push(dataset[arrIndex].position)
+                }
+            }
+
+        }
+        ind=arrIndex;
+        if(ind==11){
+            console.log("test:"+test);
+        }
+
+        option1 = {
+            tooltip:{
+                trigger:'item',
+                formatter: function(params) {
+                    var result="";
+                    let te,n,ti,sc;
+                    let count=0;
+                    for(let i=0;i<dataset.length;i++){
+                        if(dataset[i].team==params.seriesName){
+                            if(count==params.dataIndex){
+                                result += dataset[i].team+" : "+dataset[i].name+"<br />"+params.marker+dataset[i].time+" : "+dataset[i].score+"分";
+                                break;
+                            }
+                            else count++;
+                        }
+                    }
+                    return result;
+                }
+            },
+            xAxis: {
+                min:0,
+                max:15,
+                show:false,
+                splitLine:{
+                    show:false
+                }
+            },
+            yAxis: {
+                min:0,
+                max:15,
+                show:false,
+                splitLine:{
+                    show:false
+                }
+            },
+            series: [{
+                type: 'effectScatter',
+                symbolSize: 20,
+                color:'purple',
+                data: test,
+            },
+                {
+                    name:"骑士",
+                    symbolSize: 20,
+                    data: listqi,
+                    itemStyle : {
+                        normal: {
+                            borderWidth:1,
+                            color: "red",
+                            opacity:1,
+                            lineStyle: {
+                                type: 'solid'
+                            },
+                            label:{show:false}
+                        }
+                    },
+                    type: 'scatter'
+                },
+                {
+                    name:"勇士",
+                    symbolSize: 20,
+                    data: listyong,
+                    itemStyle : {
+                        normal: {
+                            borderWidth:1,
+                            color: "blue",
+                            opacity:1,
+                            lineStyle: {
+                                type: 'solid'
+                            },
+                            label:{show:false}
+                        }
+                    },
+                    type: 'scatter'
+                }]
+        };
+        option2 = {
+            title: {
+                text: '\n单场比赛时间进度',
+                x:'center',
+                textStyle:{
+                    fontSize: 20,color:'black',
+                }
+            },
+            tooltip: {
+                formatter: "{a} <br/>{c} {b}"
+            },
+            x:'10%',
+            series : [
+                {
+                    center:["50%","63%"],
+                    name: '比赛时间',
+                    type: 'gauge',
+                    z: 3,
+                    min: 0,
+                    max: 12,
+                    splitNumber: 12,
+                    radius: '80%',
+                    axisLine: {            // 坐标轴线
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            width: 8,
+                            color: [[0.2, '#3434c2'], [0.8, '#d58100'], [1, '#c72800']]
+                        },
+                    },
+                    axisTick: {            // 坐标轴小标记
+                        length: 11,        // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    splitLine: {           // 分隔线
+                        length: 13,         // 属性length控制线长
+                        lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                            color: 'auto'
+                        }
+                    },
+                    axisLabel: {
+                        textStyle:{
+                            fontWeight:'bold',
+                        },
+                    },
+                    title: {
+                        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        fontWeight: 'bolder',
+                        fontSize: 15,
+                    },
+                    detail: {
+                        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        formatter: function (value) {
+                            value = (value + '').split('.');
+                            value.length < 2 && (value.push('00'));
+                            return ('00' + value[0]).slice(-2)
+                                + '.' + (value[1] + '00').slice(0, 2);
+                        },
+                        fontWeight: 'bolder',
+                        borderRadius: 3,
+                        backgroundColor: '#444',
+                        borderColor: '#aaa',
+                        shadowBlur: 5,
+                        shadowColor: '#333',
+                        shadowOffsetX: 0,
+                        shadowOffsetY: 3,
+                        borderWidth: 2,
+                        textBorderColor: '#000',
+                        textBorderWidth: 2,
+                        textShadowBlur: 2,
+                        textShadowColor: '#fff',
+                        textShadowOffsetX: 0,
+                        textShadowOffsetY: 0,
+                        fontFamily: 'Arial',
+                        width: 30,
+                        color: '#eee',
+                        fontSize:10,
+                        rich: {}
+                    },
+                    data: [{value: tim, name: '比赛进度'}]
+                }
+            ]
+        };
+
+        myChart1.setOption(option1);
+        myChart2.setOption(option2);
+
+    });
+
+
+    myChart.setOption(option);
+    myChart1.setOption(option1);
+    myChart2.setOption(option2)
+</script>
+
+<script src="js/qiinfor.js"></script>
+<script src="js/yonginfo.js"></script>
+<!-- 右侧视图-->
+<script>
+    var myChart1_1 = echarts.init(document.getElementById('G1-kaili-ouwen0'));
+    function paint(){
+        if(num===2){
+            var option1_1= {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                radar: [
+                    {
+                        indicator: [
+                            {text: '得分', max: 26},//这个地方要问一下有没有最大值
+                            {text: '抢断', max: 4},
+                            {text: '盖帽', max: 2},
+                            {text: '助攻', max: 9},
+                            {text: '篮板', max: 13}
+                        ],
+                        center: ['50%', '48%'],
+                        radius: '69%',
+                        opacity: 1,
+                        name: {
+                            formatter: '【{value}】',
+                            textStyle: {
+                                color: 'black'
+                            }
+                        },
+
+                    }
+                ],
+                series: [
+                    {
+                        type: 'radar',
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        data: [
+                            {
+                                value: choice1,
+                                lineStyle: {
+                                    color: '#72ACD1',
+                                },
+                                symbol: 'none',
+                                areaStyle: {
+                                    opacity: 0.5,
+                                    color: "#0060b1",
+                                },
+                            },
+                            {
+                                value: choice2,
+                                lineStyle: {
+                                    color: '#d1afbf',
+                                },
+                                symbol: 'none',
+                                areaStyle: {
+                                    opacity: 0.5,
+                                    color: "#da5861",
+                                },
+                            },
+                        ]
+                    }
+
+                ]
+            }
+        }
+        else if(num===1){
+            if(choice2===0){
+                var option1_1= {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    radar: [
+                        {
+                            indicator: [
+                                {text: '得分', max: 26},//这个地方要问一下有没有最大值
+                                {text: '抢断', max: 4},
+                                {text: '盖帽', max: 2},
+                                {text: '助攻', max: 9},
+                                {text: '篮板', max: 13}
+                            ],
+                            center: ['50%', '48%'],
+                            radius: '69%',
+                            opacity: 1,
+                            name: {
+                                formatter: '【{value}】',
+                                textStyle: {
+                                    color: 'black'
+                                }
+                            },
+
+                        }
+                    ],
+                    series: [
+                        {
+                            type: 'radar',
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            data: [
+                                {
+                                    value: choice1,
+                                    lineStyle: {
+                                        color: '#72ACD1',
+                                    },
+                                    symbol: 'none',
+                                    areaStyle: {
+                                        opacity: 0.5,
+                                        color: "#0060b1",
+                                    },
+                                },
+                            ]
+                        }
+
+                    ]
+                }
+            }
+            else{
+                var option1_1= {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    radar: [
+                        {
+                            indicator: [
+                                {text: '得分', max: 26},//这个地方要问一下有没有最大值
+                                {text: '抢断', max: 4},
+                                {text: '盖帽', max: 2},
+                                {text: '助攻', max: 9},
+                                {text: '篮板', max: 13}
+                            ],
+                            center: ['50%', '48%'],
+                            radius: '69%',
+                            opacity: 1,
+                            name: {
+                                formatter: '【{value}】',
+                                textStyle: {
+                                    color: 'black'
+                                }
+                            },
+
+                        }
+                    ],
+                    series: [
+                        {
+                            type: 'radar',
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            data: [
+                                {
+                                    value: choice2,
+                                    lineStyle: {
+                                        color: '#d1afbf',
+                                    },
+                                    symbol: 'none',
+                                    areaStyle: {
+                                        opacity: 0.5,
+                                        color: "#da5861",
+                                    },
+                                },
+                            ]
+                        }
+
+                    ]
+                }
+            }
+        }
+        myChart1_1.setOption(option1_1);
+
+    }
+    var num = 1;
+    var choice1=qisc1;
+    var choice2=0;
+    paint();
+    function avacli(id){
+        switch(id){
+            case "selectone":
+                num=1;
+                var tempone = document.getElementById("selectone");
+                var temptwo = document.getElementById("selecttwo");
+                tempone.style.borderRadius="15%";
+                tempone.style.backgroundColor="#8c8c8c";
+                tempone.style.color="white";
+                temptwo.style.borderRadius=null;
+                temptwo.style.backgroundColor=null;
+                temptwo.style.color="black";
+                if(choice1!=0&&choice2!=0){
+                    console.log(1)
+                    let info = document.getElementById("ups");
+                    let name = document.getElementById("qienplayer");
+                    console.log(name.innerText);
+                    switch(name.innerText){
+                        case "Kyrie Andrew Irving":
+                            console.log(1);
+                            info.innerHTML=qi11;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "LeBron James":
+
+                            info.innerHTML=qi12;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Kevin Wesley Love":
+                            info.innerHTML=qi13;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Tristan Trevor James Thompson":
+                            info.innerHTML=qi14;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Earl Smith III":
+                            info.innerHTML=qi15;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Iman Asante Shumpert":
+                            info.innerHTML=qi16;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Richard Allen Jefferson":
+                            info.innerHTML=qi17;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Channing Thomas Frye":
+                            info.innerHTML=qi18;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Matthew Dellavedova":
+                            info.innerHTML=qi19;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Dahntay Lavall Jones":
+                            info.innerHTML=qi110;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Maurice Williams":
+                            info.innerHTML=qi111;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "Kyrie Andrew Irving":
+                            info.innerHTML=qi112;
+                            choice2=0;
+                            paint();
+                            break;
+                        case "James Andrew Jones":
+                            info.innerHTML=qi113;
+                            choice2=0;paint();
+                            break;
+                    }
+                };
+                break;
+            case "selecttwo":
+                num=2;
+                var tempone = document.getElementById("selectone");
+                var temptwo = document.getElementById("selecttwo");
+                temptwo.style.borderRadius="15%";
+                temptwo.style.backgroundColor="#8c8c8c";
+                temptwo.style.color="white";
+                tempone.style.borderRadius=null;
+                tempone.style.backgroundColor=null;
+                tempone.style.color="black";
+                break;
+            case "button_zhanmusi":
+                 if(num===1) {
+                     choice1=qisc2;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi12;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc2;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/zhanmusi.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                勒布朗-詹姆斯<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">LeBron James</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+
+            case "button_kaiwen-lefu":
+                 if(num===1) {
+                     choice1=qisc3;
+                     choice2=0;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = qi13;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc3;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/kaiwen-lefu.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                凯文-乐福<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Kevin Wesley Love</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_telisitan-tangpusen":
+                if(num===1) {
+                    choice1=qisc4;
+                    choice2=0;
+                     let info = document.getElementById("ups");
+                    info.innerHTML = qi14;
+                    paint();
+                }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc4;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/telisitan-tangpusen.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                特里斯坦-汤普森<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Tristan Trevor James Thompson</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_JR-simisi":
+                 if(num===1) {
+                     choice1=qisc5;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi15;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc5;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/JR-simisi.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                J.R.史密斯<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Earl Smith III</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_xiangbote":
+                 if(num===1) {
+                     choice1=qisc6;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi16;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc6;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/kaili-ouwen.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                伊曼-香珀特<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Iman Asante Shumpert</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_jiefusen":
+                 if(num===1) {
+                     choice1=qisc7;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi17;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc7;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/kaili-ouwen.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                               理查德-杰弗森<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Richard Allen Jefferson</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_qianning-fulai":
+                 if(num===1) {
+                     choice1=qisc8;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi18;
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc2;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/qianning-fulai.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                  钱宁-弗莱<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Channing Thomas Frye</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_maxiu":
+                 if(num===1) {
+                     choice1=qisc9;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi19;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc8;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/maxiu.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                马修-德拉维多瓦<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Matthew Dellavedova</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_dengtai-qiongsi":
+                 if(num===1) {
+                     choice1=qisc10;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi110;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc9;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/dengtai-qiongsi.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                             邓台-琼斯<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Dahntay Lavall Jones</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_weilianmusi":
+                 if(num===1) {
+                     choice1=qisc11;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi111;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc10;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/weilianmusi.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                莫里斯-威廉姆斯<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Maurice Williams</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_mozigefu":
+                 if(num===1) {
+                     choice1=qisc12;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi112;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc11;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/mozigefu.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                季莫费-莫兹戈夫<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Timofey Mozgov</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_qiongsi":
+                 if(num===1) {
+                     choice1=qisc13;
+                     choice2=0;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = qi113;
+                     paint();
+                 }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc12;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/qiongsi.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                詹姆斯-琼斯<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">James Andrew Jones</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_ouwen":
+                if(num===1) {
+                    choice1=qisc1;
+                    choice2=0;
+                    let info = document.getElementById("ups");
+                    info.innerHTML = qi11;
+                    paint();
+                }
+                if(num===2&&choice2!=0&&choice1==0){
+                    choice1=qisc13;
+                    let info = document.getElementById("ups");
+                    let rt = info.getElementsByTagName("img");
+                    let yoname = document.getElementById("yoplayer");
+                    let yoenname=document.getElementById("yoenplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(rt)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"yoplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + yoname.innerText+
+                        "                             <div id=\"yoenplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+yoenname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/qi/kaili-ouwen.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                凯里-欧文<div id=\"qienplayer\" style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Kyrie Andrew Irving</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_gelin":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc1;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong11;
+                     paint();
+                 }
+                 if(num===2&&choice1!=0&&choice2==0){
+                     choice2=yosc1;
+                     let info = document.getElementById("ups");
+                     let tx = info.getElementsByTagName("img");
+                     let qiname = document.getElementById("qiplayer");
+                     let qienname=document.getElementById("qienplayer");
+                     let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                         "                            <div class=\"col-md-3\">\n" +
+                         "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                         "                            </div>\n" +
+                         "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                         "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                         "                            </div>\n" +
+                         "                        </div>\n" +
+                         "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                         "                            <div class=\"col-md-3\">\n" +
+                         "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/gelin.png\">\n" +
+                         "                            </div>\n" +
+                         "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                         "                                德雷蒙德-格林<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Draymond Green</div></div>\n" +
+                         "                            </div>\n" +
+                         "                        </div>";
+                     info.innerHTML=h;
+                     paint();
+                 }
+                break;
+            case "button_baensi":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc2;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = yong12;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc2;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/baensi.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                哈里森-巴恩斯<<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Kyrie Andrew Irving</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_sidifen-kuli":
+                 if(num===1){
+                      choice1=0;
+                      choice2=yosc3;
+                      let info = document.getElementById("ups");
+                     info.innerHTML = yong13;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc3;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/sidifen-kuli.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                斯蒂芬-库里<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Stephen Curry</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_bogute":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc4;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong14;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc4;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/bogute.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                安德鲁-博古特<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Andrew Michael Bogut</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_kelai-tangpusen":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc5;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong15;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc5;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/kelai-tangpusen.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                克莱-汤普森<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Klay Alexander Thompson</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_liwensidun":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc6;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong16;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc6;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/liwensidun.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                肖恩-利文斯顿<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Shaun Patrick Livingston</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_yigedala":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc7;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong17;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc7;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/yigedala.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                安德烈-伊格达拉<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Andre Tyler Iguodala</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_babosa":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc8;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong18;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc8;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/babosa.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                莱昂德罗-巴博萨<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Leandro Mateus Barbosa</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_aizeli":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc9;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong19;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc9;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/aizeli.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                费斯图斯-艾泽里<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Festus Ezeli</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+            case "button_walaiqiao":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc10;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong110;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc10;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/walaiqiao.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                安德森-瓦莱乔<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Anderson Franca Varejao</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+
+                break;
+            case "button_kelake":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc11;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong111;
+                     paint();
+                 }
+                break;
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc11;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/kelake.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                伊恩-克拉克<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Ian Clark</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+            case "button_sibeici":
+                 if(num===1) {
+                     choice1=0;
+                     choice2=yosc12;
+                     let info = document.getElementById("ups");
+                     info.innerHTML = yong112;
+                     paint();
+                 }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc12;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/lashen.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                                布兰登-拉什<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">Brandon Leray Rush</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paint();
+                }
+                break;
+        }
+    }
+</script>
+
+<!-- 雷达图 -->
+<script>
+    var dom = document.getElementById("main1");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option1 = null;
+    option1 = {
+        title: {
+            text: '数据对比'
+        },
+        tooltip: {},
+        legend: {
+            data: ['金州勇士', '克利夫兰骑士']
+        },
+        radar: {
+            // shape: 'circle',
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 3,
+                    padding: [3, 5]
+                }
+            },
+            indicator: [
+                { name: '得分', max: 114.9 },
+                { name: '助攻', max: 28.9 },
+                { name: '篮板', max: 48.6 },
+                { name: '抢断', max: 10.0 },
+                { name: '盖帽', max: 6.5 }
+            ]
+        },
+        series: [{
+            name: '骑士 vs 勇士',
+            type: 'radar',
+            // areaStyle: {normal: {}},
+            data: [
+                {
+                    value: [114.9, 28.9, 46.2, 8.4, 6.1],
+                    name: '金州勇士'
+                },
+                {
+                    value: [104.3, 22.7, 44.5, 6.7, 3.9],
+                    name: '克利夫兰骑士'
+                }
+            ]
+        }]
+    };;
+    if (option1 && typeof option1 === "object") {
+        myChart.setOption(option1, true);
+    }
+</script>
+
+<!-- 球员实力分布 -->
+<script>
+    //step3: 初始化Echarts图表
+    var myChart = echarts.init(document.getElementById('main2'));
+
+    var data = [
+        [[134.2, 121.9, 30, '勒布朗-詹姆斯', 1990], [111.1, 109.9, 20, '凯里-欧文', 1990], [100.7, 95.2, 9.5, 'J.R.史密斯', 1990], [104.1, 114.6, 14, '凯文-乐福', 1990], [104.4, 113.3, 10.8, '特里斯坦-汤普森', 1990], [97.2, 106.2, 4.2, '伊曼-香珀特', 1990], [92.7, 101, 4.8, '理查德-杰弗森', 1990], [75.5, 100.9, 3, '莫里斯-威廉姆斯', 1990]],
+        [[101.1, 109.5, 20, '德雷蒙德-格林', 2015], [107.8, 111.2, 19, '斯蒂芬-库里', 2015], [114.9, 112.7, 21, '克莱-汤普森', 2015], [106.8, 107.3, 9, '哈里森-巴恩斯', 2015], [125.8, 108.2, 11, '安德烈-伊格达拉', 2015], [102.9, 115.3, 3, '肖恩-利文斯顿', 2015], [110.9, 111.8, 10.2, '安德鲁-博古特', 2015], [94.4, 114.7, 5.3, '费斯图斯-艾泽里', 2015], [104.4, 102.1, 8.3, '莱昂德罗-巴博萨', 2015], [103.7, 119.1, 6.9, '安德森-瓦莱乔', 2015], [100, 109.1, 3.4, '马利斯-斯贝茨', 2015]]
+    ];
+
+    option2 = {
+        // backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [{
+        //     offset: 0,
+        //     color: '#f7f8fa'
+        // }, {
+        //     offset: 1,
+        //     color: '#cdd0d5'
+        // }]),
+        title: {
+            text: '克利夫兰骑士 VS 金州勇士(球员实力分布)'
+        },
+        legend: {
+            right: 10,
+            data: ['骑士', '勇士']
+        },
+        xAxis: {
+            type: 'value',
+            name: '进攻效率值',
+            nameGap: 16,
+            nameTextStyle: {
+                fontSize: 14
+            },
+
+            splitLine: {
+                lineStyle: {
+                    type: 'dashed'
+                }
+            },
+            scale: true
+        },
+        yAxis: {
+            type: 'value',
+            name: '防守效率值',
+            nameLocation: 'start',
+            nameGap: 16,
+            nameTextStyle: {
+                fontSize: 14
+            },
+            // inverse: true,
+            splitLine: {
+                lineStyle: {
+                    type: 'dashed'
+                }
+            },
+            scale: true
+        },
+        series: [{
+            name: '骑士',
+            data: data[0],
+            type: 'scatter',
+            symbolSize: function (data) {
+                return data[2] * 2;
+            },
+            label: {
+                emphasis: {
+                    show: true,
+                    formatter: function (param) {
+                        return param.data[3];
+                    },
+                    position: 'top'
+                }
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(120, 36, 50, 0.5)',
+                    shadowOffsetY: 5,
+                    color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                        offset: 0,
+                        color: 'rgb(251, 118, 123)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(204, 46, 72)'
+                    }])
+                }
+            }
+        }, {
+            name: '勇士',
+            data: data[1],
+            type: 'scatter',
+            symbolSize: function (data) {
+                return data[2] * 2;
+            },
+            label: {
+                emphasis: {
+                    show: true,
+                    formatter: function (param) {
+                        return param.data[3];
+                    },
+                    position: 'top'
+                }
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(25, 100, 150, 0.5)',
+                    shadowOffsetY: 5,
+                    color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                        offset: 0,
+                        color: 'rgb(129, 227, 238)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(25, 183, 207)'
+                    }])
+                }
+            }
+        }]
+    };
+    myChart.setOption(option2);
+</script>
+
+<!-- 胜率预测 -->
+<script>
+    var dom = document.getElementById("main3");
+    var myChart = echarts.init(dom);
+    var app = {};
+    option3 = null;
+    option3 = {
+        title: {
+            text: '系列赛进行前预测胜率',
+            subtext: '来源网络'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['勇士', '骑士']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                // dataView: {show: true, readOnly: false},
+                // magicType: {show: true, type: ['line', 'bar']},
+                // restore: {show: true},
+                // saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                data: ['G1', 'G2', 'G3', 'G4', 'G5', 'G6', 'G7']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '勇士',
+                type: 'bar',
+                data: [65, 75, 90, 80, 97, 80, 60],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最大值' },
+                        { type: 'min', name: '最小值' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            },
+            {
+                name: '骑士',
+                type: 'bar',
+                data: [35, 25, 10, 20, 3, 20, 40],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最大值' },
+                        { type: 'min', name: '最小值' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: '平均值' }
+                    ]
+                }
+            }
+        ]
+    };
+    ;
+    if (option3 && typeof option3 === "object") {
+        myChart.setOption(option3, true);
+    }
+</script>
+
+
+<!-- 球队对比 -->
+<script>
+    //step3: 初始化Echarts图表
+    var myChart = echarts.init(document.getElementById('main4'));
+    // Schema:
+    // date,AQIindex,PM2.5,PM10,CO,NO2,SO2
+    var dataML = [
+        [20160525, 0.486, 0.444, 0.727, 38, 20, 7, 4, 10, 100],
+        [20160523, 0.369, 0.419, 0.806, 45, 19, 6, 4, 6, 105],
+        [20160521, 0.471, 0.341, 0.889, 44, 32, 9, 5, 11, 120],
+        [20160519, 0.392, 0.378, 0.808, 55, 28, 11, 10, 17, 118],
+        [20160517, 0.425, 0.313, 0.76, 40, 19, 3, 6, 13, 103],
+        [20160515, 0.37, 0.357, 0.85, 46, 17, 9, 4, 12, 100],
+        [20160512, 0.382, 0.233, 0.895, 49, 15, 10, 4, 10, 92],
+        [20160509, 0.432, 0.25, 0.759, 34, 25, 9, 4, 12, 101],
+        [20160507, 0.488, 0.4, 0.879, 42, 22, 12, 2, 10, 125],
+        [20160505, 0.461, 0.323, 0.808, 43, 19, 6, 3, 13, 101],
+        [20160502, 0.422, 0.259, 0.783, 35, 15, 7, 4, 9, 95],
+        [20160429, 0.363, 0.27, 0.867, 36, 20, 10, 4, 9, 89],
+        [20160427, 0.519, 0.333, 0.708, 40, 21, 3, 6, 10, 108],
+        [20160423, 0.482, 0.417, 0.857, 48, 34, 8, 3, 14, 115],
+        [20160421, 0.533, 0.393, 0.889, 45, 23, 11, 6, 14, 107],
+        [20160419, 0.448, 0.393, 0.9, 43, 26, 9, 3, 13, 98],
+        [20160416, 0.483, 0.314, 0.941, 42, 25, 10, 5, 7, 111],
+        [20160413, 0.455, 0.333, 0.643, 45, 23, 4, 4, 12, 101],
+        [20160409, 0.523, 0.432, 0.706, 54, 24, 10, 5, 18, 120],
+        [20160407, 0.448, 0.39, 0.852, 47, 26, 7, 5, 11, 117],
+        [20160405, 0.538, 0.346, 0.8, 43, 27, 2, 5, 14, 111],
+        [20160403, 0.419, 0.395, 0.857, 52, 29, 9, 1, 7, 115],
+        [20160401, 0.5, 0.514, 0.818, 39, 31, 9, 8, 14, 121],
+        [20160330, 0.517, 0.474, 0.778, 47, 35, 10, 4, 11, 124],
+        [20160328, 0.449, 0.426, 0.773, 44, 32, 8, 6, 8, 117],
+        [20160326, 0.488, 0.429, 1, 39, 28, 13, 7, 15, 112],
+        [20160324, 0.584, 0.423, 1, 35, 29, 6, 11, 13, 114],
+        [20160322, 0.5, 0.52, 0.857, 46, 20, 7, 7, 21, 109],
+        [20160320, 0.517, 0.389, 0.905, 52, 30, 11, 5, 17, 123],
+        [20160318, 0.557, 0.425, 0.591, 50, 36, 5, 6, 14, 128],
+        [20160317, 0.476, 0.5, 0.786, 38, 25, 2, 2, 12, 107],
+        [20160314, 0.396, 0.39, 0.793, 52, 21, 15, 6, 17, 111],
+        [20160311, 0.476, 0.282, 0.588, 43, 20, 8, 3, 20, 101],
+        [20160310, 0.568, 0.525, 0.769, 44, 32, 8, 8, 19, 125],
+        [20160308, 0.535, 0.351, 0.889, 51, 31, 10, 12, 16, 127],
+        [20160305, 0.416, 0.281, 0.75, 47, 16, 1, 5, 13, 95],
+        [20160303, 0.385, 0.359, 0.792, 50, 22, 8, 3, 15, 107],
+        [20160301, 0.556, 0.357, 0.905, 32, 29, 9, 6, 14, 119],
+        [20160226, 0.489, 0.472, 0.643, 45, 33, 7, 5, 8, 118],
+        [20160224, 0.418, 0.393, 0.786, 42, 30, 6, 2, 13, 98],
+        [20160222, 0.426, 0.467, 0.813, 47, 24, 8, 3, 9, 120],
+        [20160213, 0.478, 0.421, 0.833, 52, 32, 8, 8, 14, 129],
+        [20160211, 0.543, 0.29, 0.9, 40, 32, 12, 3, 13, 127],
+        [20160209, 0.384, 0.4, 0.828, 47, 27, 8, 5, 12, 104],
+        [20160207, 0.46, 0.325, 0.788, 50, 29, 6, 2, 8, 119],
+        [20160205, 0.461, 0.355, 0.813, 42, 27, 12, 0, 10, 119],
+        [20160203, 0.457, 0.273, 0.839, 56, 21, 10, 5, 14, 121],
+        [20160131, 0.398, 0.259, 0.846, 39, 16, 9, 4, 16, 92],
+        [20160127, 0.446, 0.5, 0.842, 44, 24, 6, 5, 7, 123],
+        [20160125, 0.484, 0.389, 0.944, 47, 27, 4, 1, 19, 119],
+        [20160123, 0.418, 0.316, 0.783, 45, 28, 2, 5, 9, 106],
+        [20160122, 0.44, 0.4, 0.686, 46, 25, 7, 5, 16, 120],
+        [20160119, 0.484, 0.472, 0.875, 38, 31, 19, 9, 10, 119],
+        [20160117, 0.5, 0.25, 0.72, 38, 27, 9, 7, 14, 111],
+        [20160116, 0.446, 0.241, 0.905, 42, 20, 9, 2, 10, 108],
+        [20160113, 0.471, 0.361, 0.806, 58, 24, 16, 8, 21, 140],
+        [20160111, 0.457, 0.314, 0.625, 55, 32, 10, 4, 9, 122],
+        [20160108, 0.463, 0.313, 0.741, 39, 26, 18, 7, 18, 104],
+        [20160106, 0.518, 0.515, 0.941, 41, 30, 9, 4, 15, 121],
+        [20160105, 0.512, 0.452, 0.806, 38, 28, 9, 6, 11, 123],
+        [20160103, 0.448, 0.2, 0.793, 39, 21, 9, 6, 10, 107],
+        [20160101, 0.549, 0.35, 0.714, 45, 18, 4, 6, 9, 122],
+    ];
+
+    var dataYS = [
+        [20160520, 0.465, 0.308, 0.789, 56, 30, 10, 5, 15, 119],
+        [20160518, 0.488, 0.308, 0.87, 49, 27, 9, 5, 13, 110],
+        [20160516, 0.512, 0.31, 0.778, 50, 30, 4, 9, 16, 114],
+        [20160514, 0.500, 0.515, 0.833, 42, 30, 13, 8, 14, 116],
+        [20160510, 0.494, 0.421, 0.783, 35, 25, 9, 7, 17, 118],
+        [20160508, 0.459, 0.351, 0.722, 42, 28, 6, 1, 15, 104],
+        [20160506, 0.467, 0.242, 0.696, 43, 24, 6, 2, 11, 108],
+        [20160504, 0.442, 0.424, 0.793, 35, 27, 6, 6, 8, 121],
+        [20160430, 0.462, 0.306, 0.833, 45, 24, 10, 5, 12, 115],
+        [20160428, 0.507, 0.318, 0.778, 38, 24, 7, 3, 20, 104],
+        [20160426, 0.528, 0.333, 0.806, 46, 32, 6, 9, 10, 129],
+        [20160424, 0.448, 0.385, 0.909, 39, 31, 7, 3, 8, 121],
+        [20160421, 0.472, 0.387, 0.895, 49, 27, 5, 2, 13, 113],
+        [20160418, 0.548, 0.429, 0.833, 50, 35, 4, 11, 12, 132],
+        [20160415, 0.533, 0.393, 0.889, 38, 31, 11, 6, 22, 131],
+        [20160413, 0.495, 0.467, 0.85, 53, 31, 9, 14, 21, 121],
+        [20160410, 0.500, 0.433, 0.857, 39, 32, 3, 5, 14, 117],
+        [20160409, 0.483, 0.4, 0.667, 58, 25, 8, 3, 14, 112],
+        [20160407, 0.546, 0.324, 0.867, 48, 34, 16, 8, 9, 131],
+        [20160405, 0.529, 0.541, 1, 38, 29, 2, 8, 13, 120],
+        [20160404, 0.439, 0.391, 0.8, 51, 30, 11, 5, 14, 108],
+        [20160402, 0.543, 0.382, 0.375, 55, 36, 11, 11, 24, 116],
+        [20160331, 0.602, 0.636, 0.833, 50, 41, 7, 10, 15, 137],
+        [20160329, 0.469, 0.45, 0.714, 45, 27, 11, 3, 14, 130],
+        [20160327, 0.536, 0.484, 0.867, 46, 30, 9, 8, 14, 118],
+        [20160324, 0.622, 0.52, 0.842, 37, 31, 3, 5, 13, 121],
+        [20160323, 0.400, 0.133, 0.714, 36, 22, 6, 2, 10, 91],
+        [20160321, 0.494, 0.361, 0.688, 50, 32, 6, 8, 15, 112],
+        [20160319, 0.484, 0.452, 0.714, 46, 39, 6, 7, 13, 117],
+        [20160318, 0.466, 0.333, 0.833, 43, 27, 7, 6, 13, 105],
+        [20160316, 0.470, 0.429, 0.773, 53, 25, 10, 6, 16, 110],
+        [20160313, 0.494, 0.375, 1, 44, 28, 7, 2, 14, 106],
+        [20160310, 0.442, 0.233, 0.773, 48, 34, 10, 6, 16, 111],
+        [20160308, 0.536, 0.514, 0.667, 44, 32, 10, 10, 17, 122],
+        [20160305, 0.400, 0.229, 0.826, 45, 26, 5, 2, 21, 95],
+        [20160302, 0.506, 0.424, 0.706, 39, 23, 14, 7, 13, 120],
+        [20160228, 0.402, 0.225, 0.9, 47, 16, 5, 3, 12, 96],
+        [20160227, 0.494, 0.354, 0.714, 37, 21, 7, 3, 8, 125],
+        [20160225, 0.505, 0.341, 0.846, 49, 35, 9, 8, 15, 121],
+        [20160223, 0.467, 0.389, 0.7, 46, 26, 8, 10, 17, 112],
+        [20160221, 0.457, 0.413, 0.833, 49, 32, 5, 11, 15, 125],
+        [20160213, 0.402, 0.342, 0.889, 49, 26, 1, 10, 8, 107],
+        [20160212, 0.494, 0.317, 0.667, 40, 29, 12, 7, 6, 115],
+        [20160210, 0.537, 0.361, 0.731, 36, 28, 8, 5, 12, 120],
+        [20160208, 0.506, 0.345, 0.714, 49, 30, 5, 9, 18, 117],
+        [20160206, 0.579, 0.471, 0.714, 52, 42, 14, 5, 11, 141],
+        [20160202, 0.467, 0.324, 0.947, 45, 31, 4, 9, 10, 115],
+        [20160131, 0.466, 0.289, 0.688, 37, 30, 13, 7, 15, 104],
+        [20160128, 0.541, 0.419, 0.813, 48, 39, 9, 7, 12, 132],
+        [20160126, 0.446, 0.364, 0.853, 53, 25, 8, 7, 14, 115],
+        [20160124, 0.568, 0.35, 0.905, 50, 34, 5, 6, 15, 126],
+        [20160121, 0.510, 0.432, 0.737, 50, 41, 8, 6, 10, 130],
+        [20160118, 0.488, 0.243, 0.704, 43, 31, 11, 8, 10, 112],
+        [20160116, 0.480, 0.49, 0.806, 57, 33, 8, 5, 10, 147],
+        [20160115, 0.600, 0.538, 0.7, 50, 38, 6, 4, 10, 142],
+        [20160113, 0.455, 0.422, 0.833, 49, 26, 9, 8, 10, 119],
+        [20160111, 0.576, 0.462, 0.846, 49, 38, 6, 8, 12, 146],
+        [20160108, 0.510, 0.311, 0.833, 49, 36, 9, 10, 15, 122],
+        [20160105, 0.505, 0.447, 0.857, 47, 29, 5, 8, 13, 127],
+        [20160103, 0.520, 0.378, 0.933, 47, 33, 8, 6, 14, 134],
+    ];
+    var schema = [{
+        name: 'TL',
+        index: 9,
+        text: '时间',
+    },
+        {
+            name: 'TL',
+            index: 0,
+            text: '投篮'
+        },
+        {
+            name: 'SF',
+            index: 1,
+            text: '三分'
+        },
+        {
+            name: 'FQ',
+            index: 2,
+            text: '罚球'
+        },
+        {
+            name: 'LB',
+            index: 3,
+            text: '篮板'
+        },
+        {
+            name: 'ZG',
+            index: 4,
+            text: '助攻'
+        },
+        {
+            name: 'QD',
+            index: 5,
+            text: '抢断'
+        },
+        {
+            name: 'GM',
+            index: 6,
+            text: '盖帽'
+        },
+        {
+            name: 'SW',
+            index: 7,
+            text: '失误'
+        },
+        {
+            name: 'DF',
+            index: 8,
+            text: '得分'
+        }
+    ];
+
+    var lineStyle = {
+        normal: {
+            width: 2.5,
+            opacity: 0.5
+        }
+    };
+    var colors = ['#7c999f', '#dca08b'];
+
+    option4 = {
+        color: colors,
+        // backgroundColor: '#f5f5f5',
+        title: {
+            text: '球队常规赛战绩',
+        },
+        tooltip: {},
+        legend: {
+            bottom: 5,
+            data: ['骑士', '勇士'],
+            itemGap: 15,
+            textStyle: {
+                color: '#363636',
+                fontSize: 14
+            }
+        },
+        tooltip: {
+            padding: 8,
+            backgroundColor: '#222',
+            borderColor: '#777',
+            borderWidth: 1,
+            formatter: function (obj) {
+                var value = obj[0].value;
+                return +schema[0].text + '：' + value[1] + '<br>' +
+                    schema[1].text + '：' + value[1] + '<br>' +
+                    schema[2].text + '：' + value[2] + '<br>' +
+                    schema[3].text + '：' + value[3] + '<br>';
+            }
+        },
+        // dataZoom: {
+        //     show: true,
+        //     orient: 'vertical',
+        //     parallelAxisIndex: [0]
+        // },
+        parallelAxis: [
+            {
+                dim: 0,
+                name: schema[0].text,
+                max: 20160530,
+                min: 20160101
+            },
+            {
+                dim: 9,
+                name: schema[9].text
+
+            },
+            {
+                dim: 1,
+                name: schema[1].text
+            },
+            {
+                dim: 2,
+                name: schema[2].text
+            },
+            {
+                dim: 3,
+                name: schema[3].text
+            },
+            {
+                dim: 4,
+                name: schema[4].text
+            },
+            {
+                dim: 5,
+                name: schema[5].text
+            },
+            {
+                dim: 6,
+                name: schema[6].text
+            },
+            {
+                dim: 7,
+                name: schema[7].text
+            },
+            {
+                dim: 8,
+                name: schema[8].text
+            },
+            /*{dim: 4, name: schema[4].text,
+            type: 'category', data: ['一圈层', '二圈层', '三圈层']}*/
+        ],
+        parallel: {
+            left: '10%',
+            right: '18%',
+            bottom: 100,
+            parallelAxisDefault: {
+                type: 'value',
+                name: 'SF',
+                nameLocation: 'end',
+                nameGap: 15,
+                nameTextStyle: {
+                    color: '#363636',
+                    fontSize: 8
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#363636'
+                    }
+                },
+                axisTick: {
+                    lineStyle: {
+                        color: '#363636'
+                    }
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLabel: {
+                    textStyle: {
+                        color: '#000000'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: '骑士',
+            type: 'parallel',
+            lineStyle: lineStyle,
+            data: dataML
+        },
+            {
+                name: '勇士',
+                type: 'parallel',
+                lineStyle: lineStyle,
+                data: dataYS
+            },
+
+
+        ]
+    };
+    myChart.setOption(option4);
+</script>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="148262e0-825c-4ce5-bfab-70ca6921a98d" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1azJQnClb4Wsh8pMu0b1iYaQX9L" />
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../echarts-2.2.7（完整版本）" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\数据可视化\coding\NBA\img" />
+      <recent name="F:\数据可视化\coding\NBA" />
+      <recent name="F:\数据可视化\coding\NBA\js" />
+      <recent name="F:\数据可视化\coding\NBA\css" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="JavaScript Debug.index-G1.html">
+    <configuration name="1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/1.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="2.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/2.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index-G1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index-G1.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index1.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index-G1.html" />
+        <item itemvalue="JavaScript Debug.2.html" />
+        <item itemvalue="JavaScript Debug.1.html" />
+        <item itemvalue="JavaScript Debug.index1.html" />
+        <item itemvalue="JavaScript Debug.index-G1.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="148262e0-825c-4ce5-bfab-70ca6921a98d" name="Default Changelist" comment="" />
+      <created>1587732474367</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587732474367</updated>
+      <workItem from="1587732475589" duration="31150000" />
+      <workItem from="1587995707978" duration="1334000" />
+      <workItem from="1587998794545" duration="15715000" />
+      <workItem from="1588237779508" duration="46931000" />
+      <workItem from="1588439880841" duration="17162000" />
+      <workItem from="1588650729904" duration="2217000" />
+      <workItem from="1588690073749" duration="9939000" />
+      <workItem from="1588756509234" duration="36252000" />
+      <workItem from="1588864175715" duration="1334000" />
+      <workItem from="1588937498983" duration="7578000" />
+      <workItem from="1588989839473" duration="46021000" />
+      <workItem from="1589112808733" duration="15000" />
+      <workItem from="1589168984032" duration="1592000" />
+      <workItem from="1589170602050" duration="10242000" />
+      <workItem from="1589187346798" duration="23000" />
+      <workItem from="1589187428575" duration="6480000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>
