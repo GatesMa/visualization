@@ -20,15 +20,16 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../echarts-2.2.7（完整版本）" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\数据可视化\coding\NBA\img" />
       <recent name="F:\数据可视化\coding\NBA" />
-      <recent name="F:\数据可视化\coding\NBA\js" />
-      <recent name="F:\数据可视化\coding\NBA\css" />
+      <recent name="F:\数据可视化\coding\NBA\js\G1" />
+      <recent name="F:\数据可视化\coding\NBA\js\G2" />
+      <recent name="F:\数据可视化\coding\NBA\js\G3" />
+      <recent name="F:\数据可视化\coding\NBA\js\G4" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -47,25 +48,28 @@
     <configuration name="1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/1.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="2.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/2.html" useBuiltInWebServerPort="true">
+    <configuration name="index-G1-1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index-G1-1.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="index-G1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index-G1.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="index1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index1.html" useBuiltInWebServerPort="true">
+    <configuration name="index-G2.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index-G2.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index.html" useBuiltInWebServerPort="true">
+    <configuration name="index-G6.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index-G6.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="index-G7.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/NBA/index-G7.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="JavaScript Debug.index-G1.html" />
-        <item itemvalue="JavaScript Debug.2.html" />
         <item itemvalue="JavaScript Debug.1.html" />
-        <item itemvalue="JavaScript Debug.index1.html" />
-        <item itemvalue="JavaScript Debug.index-G1.html" />
+        <item itemvalue="JavaScript Debug.index-G1-1.html" />
+        <item itemvalue="JavaScript Debug.index-G7.html" />
+        <item itemvalue="JavaScript Debug.index-G2.html" />
       </list>
     </recent_temporary>
   </component>
@@ -95,10 +99,31 @@
       <workItem from="1589170602050" duration="10242000" />
       <workItem from="1589187346798" duration="23000" />
       <workItem from="1589187428575" duration="6480000" />
+      <workItem from="1589194004334" duration="57000" />
+      <workItem from="1589198282470" duration="1638000" />
+      <workItem from="1589256416120" duration="14314000" />
+      <workItem from="1589279535608" duration="20260000" />
+      <workItem from="1589374135378" duration="4271000" />
+      <workItem from="1589443334541" duration="18770000" />
+      <workItem from="1589478257021" duration="25348000" />
+      <workItem from="1589557467351" duration="32237000" />
+      <workItem from="1589677385186" duration="22000" />
+      <workItem from="1589677419216" duration="19002000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/js/G6/score_pos.js</url>
+          <line>76</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

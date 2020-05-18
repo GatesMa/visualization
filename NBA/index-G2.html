@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NBA_Visualization_G1</title>
+    <title>NBA_Visualization_G2</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/onepage-scroll.css">
-    <script src="js/echarts.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/4.7.0/echarts.js"></script>
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/jquery.onepage-scroll.js"></script>
     <script src="js/bootstrap.js"></script>
@@ -65,7 +65,7 @@
     #Img{
         background:url("img/qiuchang1.png");
         background-repeat: no-repeat;
-        background-size:32vh auto;
+        background-size:30vh auto;
         background-position:top center;
     }
     .nav-item{
@@ -92,6 +92,33 @@
         color: white;
         cursor: pointer;
     }
+    #sec{
+        font-size: 1.5em;
+        font-weight:bold;
+        color:darkred;
+        background-color: transparent;
+        padding:1vh 2vh 1vh 2vh;
+        margin-top: 1.5vh;
+        border-radius: 5%;
+        border:3px solid darkred;
+    }
+    .score_red{
+        padding: 4px;
+        background: #a81400;
+        border-radius: 6px;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .score_yellow{
+        padding: 4px;
+        background: #fa971e;
+        border-radius: 6px;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+    }
+    .big_score{
+        display: inline-block;width:2vh;height:2vh;
+    }
 </style>
 
 <body class="bodystyle">
@@ -99,30 +126,63 @@
     <div class="page page1" style="height:100vh;margin-bottom: 5vh">
         <div class="col-md-3" style="height:100%;border-right: black solid 1px;padding:0">
             <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:2%;margin-bottom: 1%">单节进攻效率对比</div>
-            <div class="col-md-12" id="att_eff" style="height:51vh;border-bottom: black solid 1px;padding:0"></div>
-            <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:2%">单节观众评论词云</div>
-            <div class="col-md-12" style="height:42vh;padding-top: 2vh;padding:2%">
-                <img src="img/wordcloud.png" style="width:100%">
-            </div>
+            <div class="col-md-12" id="att_eff" style="height:44vh;border-bottom: black solid 1px;padding:0"></div>
+            <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:2%">单节观众评论汇总</div>
+            <div class="col-md-12" id="sunburst" style="height:50vh">
+</div>
         </div>
         <div class="col-md-6" style="padding:0">
-            <div class="col-md-12" style="padding:0.5vw;font-size: 40px;text-align: center;border-bottom: black 1px solid">
-                <img src="img/G1.png" style="width:80%">
+            <div class="col-md-12" style="border-bottom: black 1px solid">
+                <div class="col-md-10" style="padding:0.5vw;font-size: 40px;text-align: center;">
+                    <img src="img/G2.JPG" style="width:100%">
+                </div>
+                <div class="col-md-2" style="margin-top: 1vh;">
+                    <select id="sec" onchange="ChangeSec()" >
+                        <option>第一节</option>
+                        <option>第二节</option>
+                        <option>第三节</option>
+                        <option>第四节</option>
+
+                    </select>
+                </div>
             </div>
             <div class="nav" style="width:100%">
-                <div class="nav-item col-md-2" onclick="location='index-G2.html'">G2</div>
+                <div class="nav-item col-md-2" onclick="location='index.html'">G1</div>
                 <div class="nav-item col-md-2" onclick="location='index-G3.html'">G3</div>
                 <div class="nav-item col-md-2" onclick="location='index-G4.html'">G4</div>
                 <div class="nav-item col-md-2" onclick="location='index-G5.html'">G5</div>
                 <div class="nav-item col-md-2" onclick="location='index-G6.html'">G6</div>
                 <div class="nav-item col-md-2" onclick="location='index-G7.html'"style="border-right:0">G7</div>
             </div>
-            <div class="col-md-10 col-md-offset-1" id="main_view" style="width:83%;height:50vh;background-image: url(img/main_view.png);background-size: cover"></div>
-            <div class="col-md-12" id="timeline" style="width:100%;height:8vh;border-bottom: black solid 1px"></div>
-            <div class="col-md-4" id="progress" style="height:30vh;border-right: black solid 1px;padding:0;margin-top: -1%"></div>
+            <div class="col-md-12" id="main_view" style="height:49vh;
+            background-image: url(img/main_view.png);background-size: auto 49vh;background-repeat:no-repeat;background-position: center";></div>
+            <div class="col-md-12" id="timeline" style="width:100%;height:9vh;border-bottom: black solid 1px"></div>
+            <div class="col-md-4" id="progress" style="height:30vh;border-right: black solid 1px;padding:0;"></div>
             <div class="col-md-8">
-                <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:1%">胜率预测曲线</div>
-                <div class="col-md-12" id="winapp" style="width:100%;height:29vh;padding:0;margin-top: -8%">
+                <div class="col-md-12" style="text-align: center;font-size: 20px;font-weight: bold;margin-top:3%;padding-left:3vh;padding-right: 3vh;padding-bottom: 2vh">
+<span style="float: left">骑士</span>
+                    当前比赛分数
+                    <span style="float: right">勇士</span>
+                </div>
+                <div class="col-md-2" style="padding:0vh 1vh 0vh 1vh">
+                    <img src="img/Cleveland1.png" style="width:100%;height:100%;margin-bottom: 1vh">
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-12" style="font-size: 7vh;vertical-align: center;text-align: center">
+                        <span id="qiscores" style="color:#d61400;text-shadow:2px 2px #a81400"></span>
+                        :
+                        <span id="yongscores" style="color:#fabe00;text-shadow:2px 2px #d19c00"></span>
+                    </div>
+                    <div class="col-md-12 score_red" id="score_line"style="padding-top:0;padding-right: 0;padding-bottom:0;padding-left:0">
+                        <div class="col-md-12 score_yellow" id="score_subline">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" style="padding:4vh 0vh 0vh 0vh">
+                    <img src="img/warrior1.png"style="width:100%;height:100%;margin-bottom: 2vh">
+                    <div style="text-align: center">
+                        <img src="img/basketball.png" class="big_score">
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,7 +205,6 @@
                     <img id="button_weilianmusi" src="img/photo/qi/weilianmusi.png" onclick="avacli(this.id)" class="avatar">
                     <img id="button_qiongsi" src="img/photo/qi/qiongsi.png" onclick="avacli(this.id)" class="avatar">
                     <img id="button_ouwen" src="img/photo/qi/kaili-ouwen.png" onclick="avacli(this.id)" class="avatar">
-
                 </div>
             </div>
             <div class="col-md-12" style="padding:2% 0 2% 0">
@@ -162,9 +221,10 @@
                     <img id="button_yigedala" src="img/photo/yong/yigedala.png" onclick="avacli(this.id)" class="avatar">
                     <img id="button_babosa" src="img/photo/yong/babosa.png" onclick="avacli(this.id)" class="avatar">
                     <img id="button_aizeli" src="img/photo/yong/aizeli.png" onclick="avacli(this.id)" class="avatar">
-                    <img id="button_walaiqiao" src="img/photo/yong/walaiqiao.png" onclick="avacli(this.id)" class="avatar">
                     <img id="button_kelake" src="img/photo/yong/kelake.png" onclick="avacli(this.id)" class="avatar">
                     <img id="button_sibeici" src="img/photo/yong/sibeici.png" onclick="avacli(this.id)" class="avatar">
+                    <img id="button_lashen" src="img/photo/yong/lashen.png" onclick="avacli(this.id)" class="avatar">
+
                 </div>
             </div>
 
@@ -179,7 +239,7 @@
                         <div class="col-md-9" style="color: black;text-align: right">
                             <p style="font-size: 3vh"><b>#2</b></p>
                             <p style="text-align: right">骑士 &nbsp 后卫 &nbsp 1.91m  &nbsp 88kg<br/>
-                                生日：1992年03月23日 &nbsp 选秀：2011年</p>
+                                生日：1992年03月23日 &nbsp 选秀：2011</p>
                         </div>
                     </div>
                     <div style="font-size:140%;text-align: center;font-weight: bold;padding-bottom: 1%;padding-top: 3%">
@@ -191,7 +251,7 @@
                     </div>
                     <div id="G1-kaili-ouwen0" class="radar"></div>
                     <div id="Img">
-                        <div id="t1" style="width:100%;height:32vh;"></div>
+                        <div id="t1" style="width:100%;height:26vh;"></div>
                     </div>
                 </div>
             </div>
@@ -252,6 +312,7 @@
 </div>
 </body>
 </html>
+<script src="js/G2/score_pos.js"></script>
 <!--胜率预测柱状图-->
 <script>
     var myChart = echarts.init(document.getElementById('winapp'));
@@ -285,894 +346,208 @@
 
 </script>
 
-<!--词云图-->
+<!--旭日图-->
+<script src="js/AudienceReivew.js"></script>
 <script>
-    var myChart = echarts.init(document.getElementById('wordcloud'));
+    var SunBurstChart = echarts.init(document.getElementById('sunburst'));
 
-    option = {
+    function DrawSunburst(AR){
+        var itemStyle = {
+            star4: {
+                color: SunBurstColors[1]
+            },
+            star3: {
+                color: SunBurstColors[2]
+            },
+            star2: {
+                color: SunBurstColors[3]
+            }
+        };
 
-        tooltip: {
-            show: true
-        },
-        series: [{
-            type: "wordCloud",
-            gridSize:2,
-            shape:'diamond',
-            sizeRange: [13, 20],
-            width:1200,
-            height:400,
-            textStyle: {
-                normal: {
-                    color: function() {
-                        return 'rgb(' + [
-                            Math.round(Math.random() * 160),
-                            Math.round(Math.random() * 160),
-                            Math.round(Math.random() * 160)
-                        ].join(',') + ')';
+        //for循环和SunBurstOptions里面对应AR需要替换
+        for (var j = 0; j < AR.length; ++j) {
+            var level1 = AR[j].children;
+            for (var i = 0; i < level1.length; ++i) {
+                var block = level1[i].children;
+                var bookScore = [];
+                var bookScoreId;
+                for (var star = 0; star < block.length; ++star) {
+                    var style = (function (name) {
+                        switch (name) {
+                            case '名词':
+                                bookScoreId = 1;
+                                return itemStyle.star4;
+                            case '形容词':
+                                bookScoreId = 2;
+                                return itemStyle.star3;
+                            case '动词':
+                                bookScoreId = 3;
+                                return itemStyle.star2;
+                        }
+                    })(block[star].name);
+
+                    block[star].label = {
+                        color: style.color,
+                        downplay: {
+                            opacity: 0.5
+                        }
+                    };
+
+                    if (block[star].children) {
+                        style = {
+                            opacity: 1,
+                            color: style.color
+                        };
+                        block[star].children.forEach(function (book) {
+                            book.value = 1;
+                            book.itemStyle = style;
+
+                            book.label = {
+                                color: style.color
+                            };
+
+                            var value = 1;
+                            if (bookScoreId === 0 || bookScoreId === 3) {
+                                value = 5;
+                            }
+
+                            if (bookScore[bookScoreId]) {
+                                bookScore[bookScoreId].value += value;
+                            }
+                            else {
+                                bookScore[bookScoreId] = {
+                                    color: SunBurstColors[bookScoreId],
+                                    value: value
+                                };
+                            }
+                        });
+                    }
+                }
+
+                level1[i].itemStyle = {
+                    color: AR[j].itemStyle.color
+                };
+            }
+        }
+        SunBurstOptions = {
+            //backgroundColor: SunBurstbgcolor,
+            color: SunBurstColors,
+            series: [{
+                type: 'sunburst',
+                center: ['50%', '47%'],
+                data: AR,
+                sort: function (a, b) {
+                    if (a.depth === 1) {
+                        return b.getValue() - a.getValue();
+                    }
+                    else {
+                        return a.dataIndex - b.dataIndex;
+
                     }
                 },
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowColor: '#333'
-                }
-            },
-            data: [{
-                name: " 没有",
-                value: 30,
-            },
-
-
-                {
-                    name: " 断流",
-                    value: 3
-                },
-                {
-                    name: " 套装",
-                    value: 3
-                },
-                {
-                    name: " 一样",
-                    value: 3
-                },
-                {
-                    name: " 发票",
-                    value: 3
-                },
-                {
-                    name: " 买回来",
-                    value: 3
-                },
-                {
-                    name: " 软件",
-                    value: 3
-                },
-                {
-                    name: " 还好",
-                    value: 3
-                },
-                {
-                    name: " 以后",
-                    value: 3
-                },
-                {
-                    name: " 下单",
-                    value: 3
-                },
-                {
-                    name: " 打游戏",
-                    value: 3
-                },
-                {
-                    name: " 我们",
-                    value: 3
-                },
-                {
-                    name: " 但是",
-                    value: 3
-                },
-                {
-                    name: " 一部",
-                    value: 3
-                },
-                {
-                    name: " 王者",
-                    value: 3
-                },
-                {
-                    name: " 不怎么样",
-                    value: 3
-                },
-                {
-                    name: " 看看",
-                    value: 3
-                },
-                {
-                    name: " 自己",
-                    value: 3
-                },
-                {
-                    name: " 里面",
-                    value: 3
-                },
-                {
-                    name: " 边框",
-                    value: 3
-                },
-                {
-                    name: " 看着",
-                    value: 3
-                },
-                {
-                    name: " 要死",
-                    value: 3
-                },
-                {
-                    name: " 原因",
-                    value: 3
-                },
-                {
-                    name: " 新机",
-                    value: 3
-                },
-                {
-                    name: " 不如",
-                    value: 3
-                },
-                {
-                    name: " 老是",
-                    value: 3
-                },
-                {
-                    name: " 购买",
-                    value: 3
-                },
-                {
-                    name: " 更好",
-                    value: 3
-                },
-                {
-                    name: " 相机",
-                    value: 3
-                },
-                {
-                    name: " 竟然",
-                    value: 3
-                },
-                {
-                    name: " 一分",
-                    value: 3
-                },
-                {
-                    name: " 天才",
-                    value: 3
-                },
-                {
-                    name: " 荣耀",
-                    value: 3
-                },
-                {
-                    name: " 正常",
-                    value: 3
-                },
-                {
-                    name: " 回复",
-                    value: 3
-                },
-                {
-                    name: " 联系",
-                    value: 3
-                },
-                {
-                    name: " 总体",
-                    value: 3
-                },
-                {
-                    name: " 反应",
-                    value: 3
-                },
-                {
-                    name: " 老爸",
-                    value: 3
-                },
-                {
-                    name: " 星期",
-                    value: 3
-                },
-                {
-                    name: " 半个",
-                    value: 3
-                },
-                {
-                    name: " 打电话",
-                    value: 3
-                },
-                {
-                    name: " 不是",
-                    value: 3
-                },
-                {
-                    name: " 保护膜",
-                    value: 3
-                },
-                {
-                    name: " 充电器",
-                    value: 3
-                },
-                {
-                    name: " 买不到",
-                    value: 2
-                },
-                {
-                    name: " 老子",
-                    value: 2
-                },
-                {
-                    name: " 差评",
-                    value: 2
-                },
-                {
-                    name: " 这么",
-                    value: 2
-                },
-                {
-                    name: " 真香",
-                    value: 2
-                },
-                {
-                    name: " 真是",
-                    value: 2
-                },
-                {
-                    name: " 三天",
-                    value: 2
-                },
-                {
-                    name: " 填写内容",
-                    value: 2
-                },
-                {
-                    name: " 帮别人",
-                    value: 2
-                },
-                {
-                    name: " 终于",
-                    value: 2
-                },
-                {
-                    name: " 有时候",
-                    value: 2
-                },
-                {
-                    name: " 极致",
-                    value: 2
-                },
-                {
-                    name: " 还有",
-                    value: 2
-                },
-                {
-                    name: " 希望",
-                    value: 2
-                },
-                {
-                    name: " 必须",
-                    value: 2
-                },
-                {
-                    name: " 好像",
-                    value: 2
-                },
-                {
-                    name: " 严重",
-                    value: 2
-                },
-                {
-                    name: " 反应速度",
-                    value: 2
-                },
-                {
-                    name: " 后面",
-                    value: 2
-                },
-                {
-                    name: " 音乐",
-                    value: 2
-                },
-                {
-                    name: " 商品",
-                    value: 2
-                },
-                {
-                    name: " 哈哈",
-                    value: 2
-                },
-                {
-                    name: " 垃圾",
-                    value: 2
-                },
-                {
-                    name: " 好用",
-                    value: 2
-                },
-                {
-                    name: " 突出",
-                    value: 2
-                },
-                {
-                    name: " 价钱",
-                    value: 2
-                },
-                {
-                    name: " 耍猴",
-                    value: 2
-                },
-                {
-                    name: " 磕碰",
-                    value: 2
-                },
-                {
-                    name: " 几次",
-                    value: 2
-                },
-                {
-                    name: " 失灵",
-                    value: 2
-                },
-                {
-                    name: " 支持",
-                    value: 2
-                },
-                {
-                    name: " 快充",
-                    value: 2
-                },
-                {
-                    name: " 意思",
-                    value: 2
-                },
-                {
-                    name: " 失败",
-                    value: 2
-                },
-                {
-                    name: " 整整",
-                    value: 2
-                },
-                {
-                    name: " 没收",
-                    value: 2
-                },
-                {
-                    name: " 已经",
-                    value: 2
-                },
-                {
-                    name: " 无法",
-                    value: 2
-                },
-                {
-                    name: " 方面",
-                    value: 2
-                },
-                {
-                    name: " 为啥",
-                    value: 2
-                },
-                {
-                    name: " 喜欢",
-                    value: 2
-                },
-                {
-                    name: " 套餐",
-                    value: 2
-                },
-                {
-                    name: " 完全",
-                    value: 2
-                },
-                {
-                    name: " 专业",
-                    value: 2
-                },
-                {
-                    name: " 选择",
-                    value: 2
-                },
-                {
-                    name: " 48mp",
-                    value: 2
-                },
-                {
-                    name: " 无线",
-                    value: 2
-                },
-                {
-                    name: " 一个月",
-                    value: 2
-                },
-                {
-                    name: " 不过",
-                    value: 2
-                },
-                {
-                    name: " ldquo",
-                    value: "-"
-                },
-                {
-                    name: " rdquo",
-                    value: "-"
-                },
-                {
-                    name: " 这种",
-                    value: 2
-                },
-                {
-                    name: " 送货",
-                    value: 2
-                },
-                {
-                    name: " 卡死",
-                    value: 2
-                },
-                {
-                    name: " 来看",
-                    value: 2
-                },
-                {
-                    name: " 糊弄人",
-                    value: 2
-                },
-                {
-                    name: " note7",
-                    value: 2
-                },
-                {
-                    name: " 时间",
-                    value: 2
-                },
-                {
-                    name: " 短信",
-                    value: 2
-                },
-                {
-                    name: " 滑落",
-                    value: 2
-                },
-                {
-                    name: " 那样",
-                    value: 2
-                },
-                {
-                    name: " vivo",
-                    value: 2
-                },
-                {
-                    name: " 防水",
-                    value: 2
-                },
-                {
-                    name: " 等待",
-                    value: 2
-                },
-                {
-                    name: " 直播",
-                    value: 2
-                },
-                {
-                    name: " 难受",
-                    value: 2
-                },
-                {
-                    name: " 四个",
-                    value: 2
-                },
-                {
-                    name: " 到手",
-                    value: 2
-                },
-                {
-                    name: " 发现",
-                    value: 2
-                },
-                {
-                    name: " 掉电",
-                    value: 2
-                },
-                {
-                    name: " 华为",
-                    value: 2
-                },
-                {
-                    name: " 再也",
-                    value: 2
-                },
-                {
-                    name: " 不用",
-                    value: 2
-                },
-                {
-                    name: " 给力",
-                    value: 2
-                },
-                {
-                    name: " 两天",
-                    value: 2
-                },
-                {
-                    name: " 立马",
-                    value: 2
-                },
-                {
-                    name: " 两周",
-                    value: 2
-                },
-                {
-                    name: " 处理器",
-                    value: 2
-                },
-                {
-                    name: " 关机",
-                    value: 2
-                },
-                {
-                    name: " 要么",
-                    value: 2
-                },
-                {
-                    name: " 满血",
-                    value: 2
-                },
-                {
-                    name: " 不会",
-                    value: 2
-                },
-                {
-                    name: " 定金",
-                    value: 2
-                },
-                {
-                    name: " 付款",
-                    value: 2
-                },
-                {
-                    name: " 心情",
-                    value: 2
-                },
-                {
-                    name: " 另外",
-                    value: 2
-                },
-                {
-                    name: " 游戏",
-                    value: 2
-                },
-                {
-                    name: " 公司",
-                    value: 2
-                },
-                {
-                    name: " 按键",
-                    value: 2
-                },
-                {
-                    name: " 卡顿",
-                    value: 2
-                },
-                {
-                    name: " 晚上",
-                    value: 2
-                },
-                {
-                    name: " 百分之",
-                    value: 2
-                },
-                {
-                    name: " 手机信号",
-                    value: 2
-                },
-                {
-                    name: " 一下",
-                    value: 2
-                },
-                {
-                    name: " 开学",
-                    value: 2
-                },
-                {
-                    name: " 上班",
-                    value: 2
-                },
-                {
-                    name: " 上天",
-                    value: 2
-                },
-                {
-                    name: " 配送",
-                    value: 2
-                },
-                {
-                    name: " 最后",
-                    value: 2
-                },
-                {
-                    name: " 太慢",
-                    value: 2
-                },
-                {
-                    name: " 手机套",
-                    value: 2
-                },
-                {
-                    name: " 笨重",
-                    value: 2
-                },
-                {
-                    name: " 半年",
-                    value: 2
-                },
-                {
-                    name: " 屏险",
-                    value: 2
-                },
-                {
-                    name: " 先发",
-                    value: 2
-                },
-                {
-                    name: " 不灵敏",
-                    value: 2
-                },
-                {
-                    name: " 硬度",
-                    value: 2
-                },
-                {
-                    name: " 这次",
-                    value: 2
-                },
-                {
-                    name: " 性能",
-                    value: 2
-                },
-                {
-                    name: " 介绍",
-                    value: 2
-                },
-                {
-                    name: " 卡针",
-                    value: 2
-                },
-                {
-                    name: " 不理",
-                    value: 2
-                },
-                {
-                    name: " 这是",
-                    value: 2
-                },
-                {
-                    name: " 买来",
-                    value: 2
-                },
-                {
-                    name: " 两次",
-                    value: 2
-                },
-                {
-                    name: " 网络",
-                    value: 2
-                },
-                {
-                    name: " 就裂",
-                    value: 2
-                },
-                {
-                    name: " 没用",
-                    value: 2
-                },
-                {
-                    name: " 多次",
-                    value: 2
-                },
-                {
-                    name: " 钢化",
-                    value: 2
-                },
-                {
-                    name: " 一星怪",
-                    value: 1
-                },
-                {
-                    name: " 新款",
-                    value: 1
-                },
-                {
-                    name: " 你行",
-                    value: 1
-                },
-                {
-                    name: " 没送",
-                    value: 1
-                },
-                {
-                    name: " 一个多",
-                    value: 1
-                },
-                {
-                    name: " 礼拜",
-                    value: 1
-                },
-                {
-                    name: " 只能",
-                    value: 1
-                },
-                {
-                    name: " 价位",
-                    value: 1
-                },
-                {
-                    name: " 闪退",
-                    value: 1
-                },
-                {
-                    name: " 抢到",
-                    value: 1
-                },
-                {
-                    name: " 其它",
-                    value: 1
-                },
-                {
-                    name: " 便宜",
-                    value: 1
-                },
-                {
-                    name: " 两百",
-                    value: 1
-                },
-                {
-                    name: " 盈利",
-                    value: 1
-                },
-                {
-                    name: " 机智",
-                    value: 1
-                },
-                {
-                    name: " 更新换代",
-                    value: 1
-                },
-                {
-                    name: " 太乱",
-                    value: 1
-                },
-                {
-                    name: " 赔付",
-                    value: 1
-                },
-                {
-                    name: " 自营",
-                    value: 1
-                },
-                {
-                    name: " 产品",
-                    value: 1
-                },
-                {
-                    name: " 手持",
-                    value: 1
-                },
-                {
-                    name: " 夜景",
-                    value: 1
-                },
-                {
-                    name: " 机子",
-                    value: 1
-                },
-                {
-                    name: " 拆过",
-                    value: 1
-                }
-            ],
-        }]
-
-    };    myChart.setOption(option);
-
-</script>
-<!--热力图-->
-<script>
-
-    var myChart = echarts.init(document.getElementById('t1'));
-    option = {
-        xAxis: {
-            min:0,
-            max:15,
-            show:false,
-            splitLine:{
-                show:false
-            }
-        },
-        yAxis: {
-            min:0,
-            max:15,
-            show:false,
-            splitLine:{
-                show:false
-            }
-        },
-        series: [{
-            symbolSize: 15,
-            data: [
-                [10.0, 8.04],
-                [8.0, 6.95],
-                [13.0, 7.58],
-                [9.0, 8.81],
-                [11.0, 8.33],
-            ],
-            itemStyle : {
-                normal: {
-                    borderWidth:1,
-                    color: "red",
-                    opacity:1,
-                    lineStyle: {
-                        type: 'solid'
+                label: {
+                    rotate: 'radial',
+                    color: SunBurstbgcolor
+                },
+                itemStyle: {
+                    borderColor: SunBurstbgcolor,
+                    borderWidth: 1
+                },
+                levels: [{}, {
+                    r0: "0%",
+                    r: '18%',
+                    label: {
+                        rotate: 0
+                    }
+                }, {
+                    r0: '18%',
+                    r: '39%'
+                }, {
+                    r0: '39%',
+                    r: '60%',
+                    itemStyle: {
+                        shadowBlur: 2,
+                        shadowColor: SunBurstColors[3],
+                        color: 'transparent'//这是星星那个地方的空背景
                     },
-                    label:{show:false}
-                }
-            },
-            type: 'scatter'
-        }]
-    };
-    myChart.setOption(option);
+                    label: {
+                        rotate: 'tangential',
+                        fontSize: 8,
+                        color: SunBurstColors[0]
+                    }
+                }, {
+                    r0: '60%',
+                    r: '73%',
+
+                    label: {
+                        position: 'outside',
+                        textShadowBlur: 0.1,
+                        textShadowColor: '#333',
+                    },
+                    downplay: {
+                        label: {
+                            opacity: 0.5
+                        }
+                    }
+                }]
+            }]
+        };
+        SunBurstChart.setOption(SunBurstOptions);
+    }
+    DrawSunburst(AuReviewG1_1)
 </script>
 
 
 <!--时间进度图-->
 <!--进攻效率值图-->
 <script>
-    var myChart = echarts.init(document.getElementById('att_eff'));
-    var option = {
-        color:['#7d0000','#fabe00'],
-        angleAxis: {
-        },
-        radiusAxis: {
-            type: 'category',
-            data: ['第一节', '第二节', '第三节', '第四节'],
-            z: 10,
-            axisLabel: {
+    var eff1=qieff[0];
+    var eff2=yoeff[0];
+    var effiChart = echarts.init(document.getElementById('att_eff'));
+    function Draweff(eff1,eff2)
+    {
+        var eff_option = {
+            color:['#7d0000','#fabe00'],
+            angleAxis: {
+            },
+            radiusAxis: {
+                type: 'category',
+                data: ['投篮', '防守', '助攻', '篮板'],
+                z: 10,
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: '#060861',
+                        fontWeight:"bold"
+                    }
+                },
+            },
+            polar: {
+            },
+            series: [{
+                type: 'bar',
+                data: eff1,
+                coordinateSystem: 'polar',
+                name: '骑士',
+                stack: 'a'
+            }, {
+                type: 'bar',
+                data: eff2,
+                coordinateSystem: 'polar',
+                name: '勇士',
+                stack: 'a'
+            }],
+            legend: {
                 show: true,
-                textStyle: {
-                    color: '#060861',
+                data: ['骑士', '勇士'],
+                textStyle:{
                     fontWeight:"bold"
                 }
-            },
-        },
-        polar: {
-        },
-        series: [{
-            type: 'bar',
-            data: [1, 2, 3, 4],
-            coordinateSystem: 'polar',
-            name: '骑士',
-            stack: 'a'
-        }, {
-            type: 'bar',
-            data: [2, 4, 6, 8],
-            coordinateSystem: 'polar',
-            name: '勇士',
-            stack: 'a'
-        }],
-        legend: {
-            show: true,
-            data: ['骑士', '勇士'],
-            textStyle:{
-                fontWeight:"bold"
             }
-        }
-    };
-    myChart.setOption(option);
-
+        };
+        effiChart.setOption(eff_option);
+    }
+    Draweff(eff1,eff2);
 </script>
 <script>
     $(function(){
@@ -1184,164 +559,66 @@
 </script>
 <!--篮球场主视图-->
 <script>
-    var myChart = echarts.init(document.getElementById('timeline'));
-    var myChart1 = echarts.init(document.getElementById('main_view'));
-    var myChart2 = echarts.init(document.getElementById('progress'));
+    var TimeLine_Chart = echarts.init(document.getElementById('timeline'));
+    var MainView_Chart = echarts.init(document.getElementById('main_view'));
+    var Progress_Chart = echarts.init(document.getElementById('progress'));
 
-    var dataset=[
-        {"name":"詹姆斯","position":[4,6],"team":"骑士","time":"11:31","score":"2"},
-        {"name":"库里","position":[2,9],"team":"勇士","time":"10:28","score":"2"},
-        {"name":"杜兰特","position":[5,3],"team":"勇士","time":"8:54","score":"2"},
-        {"name":"格林","position":[7,9],"team":"勇士","time":"7:41","score":"2"},
-        {"name":"伊戈达拉","position":[2,1],"team":"勇士","time":"7:21","score":"2"},
-        {"name":"汤普森","position":[10,3],"team":"勇士","time":"6:32","score":"2"},
-        {"name": "JR史密斯","position":[5,1],"team":"骑士","time":"6:13","score":"2"},
-        {"name":"乐福","position":[6,8],"team":"骑士","time":"5:22","score":"2"},
-        {"name":"香波特","position":[9,0],"team":"骑士","time":"5:10","score":"2"},
-        {"name":"琼斯","position":[5,4],"team":"骑士","time":"4:37","score":"2"},
-        {"name":"钱宁","position":[7,4],"team":"骑士","time":"3:32","score":"2"},
-        {"name":'利文斯顿',"position":[10,7],"team":"勇士","time":"1:31","score":"2"}
-    ];
-    var tim=11.31;
-    var listqi=[];<!--区分骑士勇士数据-->
-    var listyong=[];
-    var flag;<!--区分当前添加的是骑士还是勇士数据-->
-    if(dataset[0].team=="骑士") {
-        flag=1;
-        listqi.push(dataset[0].position)
-    }
-    else{
-        flag=0;
-        listyong.push(dataset[0].position)
-    }
-    var test=[(flag==1?listqi[0]:listyong[0])];
-    console.log(test);
-    option = {
-        timeline: {
-            axisType: 'category',
-            data: ["11:31","10:28","8:54","7:41","7:21","6:32","6:13","5:22","5:10","4:37","3:32","1:31"],
-            autoPlay: false,
-            x: '0%',
-            x2: '3%',
-            y: '18%',
-        }
-    };
-    option1 = {
-        tooltip:{
-            trigger:'item',
-            formatter: function(params) {
-                var result="";
-                result+=dataset[params.dataIndex].team+" : "+dataset[params.dataIndex].name+"<br />"+params.marker+dataset[params.dataIndex].time+" : "+dataset[params.dataIndex].score+"分";
-                return result;
-            }
-        },
-        xAxis: {
-            min:0,
-            max:15,
-            show:false,
-            splitLine:{
-                show:false
-            }
-        },
-        yAxis: {
-            min:0,
-            max:15,
-            show:false,
-            splitLine:{
-                show:false
-            }
-        },
-        series: [
-            {
-                type: 'effectScatter',
-                symbolSize: 20,
-                data: test,
-                itemStyle : {
-                    normal: {
-                        color: 'purple',
-                        opacity:1,
-                        lineStyle: {
-                            type: 'solid'
-                        },
-                        label:{show:false}
-                    }
-                },
-            },
-            {
-                name:(flag==1?"骑士":"勇士"),
-                symbolSize: 20,
-                data: test,
-                itemStyle : {
-                    normal: {
-                        borderWidth:1,
-                        color: (flag==1?"red":"blue"),
-                        opacity:1,
-                        lineStyle: {
-                            type: 'solid'
-                        },
-                        label:{show:false}
-                    }
-                },
-                type: 'scatter'
-            },
-        ]
-    };
-    var ind=0;
-    myChart.on('timelinechanged', function(timelineIndex){
-        console.log(timelineIndex.currentIndex);
-        var arrIndex= parseInt(timelineIndex.currentIndex);
-        myChart1.clear();
-        myChart2.clear();
-        test=[];
-        tim=dataset[arrIndex].time;
-        console.log("time:"+tim);
-        if(arrIndex<ind&&arrIndex!=0){//往回倒
-            if(dataset[arrIndex+1].team=="骑士") {
-                listqi.pop();
-                test.push(dataset[arrIndex].position)
 
-            }
-            else{
-                listyong.pop();
-                test.push(dataset[arrIndex].position)
-            }
+    var time=time1;
+    var dataset=dataset1;
+    var score=score1;
+    function main_process(){
+        var sc_arr=score[0].split("-");
+        var qiscores=document.getElementById("qiscores");
+        var yongscores=document.getElementById("yongscores");
+        var line=document.getElementById("score_line");
+        qiscores.innerText=sc_arr[0];
+        yongscores.innerText=sc_arr[1];
+        if(Number(sc_arr[0])/(Number(sc_arr[0])+Number(sc_arr[1]))==1){
+            document.getElementById("score_subline").style.visibility="hidden";
         }
         else{
-            if(arrIndex==11&&ind==0){
-                listqi=[];listyong=[];
-                test=dataset[dataset.length-1].position;
-                flag=(dataset[dataset.length-1].team=="骑士"?1:0);
-                for(let temp in dataset){
-                    if(dataset[temp].team=="骑士")listqi.push(dataset[temp].position);
-                    else listyong.push(dataset[temp].position);
-                }
-            }
-            else{
-                if(arrIndex==0){
-                    listqi=[];
-                    listyong=[];
-                }
-                test.push(dataset[arrIndex].position);
-                if(dataset[arrIndex].team=="骑士") {
-                    flag=1;
-                    listqi.push(dataset[arrIndex].position)
-                }
-                else{
-                    flag=0;
-                    listyong.push(dataset[arrIndex].position)
-                }
-            }
-
+            document.getElementById("score_subline").style.visibility="visible";
+            line.style.paddingLeft=100*Number(sc_arr[0])/(Number(sc_arr[0])+Number(sc_arr[1]))+"%";
         }
-        ind=arrIndex;
-        console.log("test:"+test);
-
+        var tim=((Number(dataset[0].time.split(":")[0])+Number(dataset[0].time.split(":")[1])/100)).toFixed(2);
+        var listqi=[];<!--区分骑士勇士数据-->
+        var listyong=[];
+        var flag;<!--区分当前添加的是骑士还是勇士数据-->
+        if(dataset[0].team=="骑士") {
+            flag=1;
+            listqi.push(dataset[0].position)
+        }
+        else{
+            flag=0;
+            listyong.push(dataset[0].position)
+        }
+        var test=[(flag==1?listqi[0]:listyong[0])];
+        console.log(test);
+        option = {
+            timeline: {
+                axisType: 'category',
+                data: time,
+                autoPlay: false,
+                x: '0%',
+                x2: '3%',
+                y: '18%',
+            }
+        };
         option1 = {
+            color:['red','blue'],
+            legend:{
+                orient: 'vertical',
+                show:true,
+                data: ['骑士','勇士'],
+                right:'0%',
+                top:'10%'
+            },
             tooltip:{
                 trigger:'item',
                 formatter: function(params) {
                     var result="";
-                    result+=dataset[params.dataIndex+1].team+" : "+dataset[params.dataIndex+1].name+"<br />"+params.marker+dataset[params.dataIndex+1].time+" : "+dataset[params.dataIndex+1].score+"分";
+                    result+=dataset[params.dataIndex].team+" : "+dataset[params.dataIndex].name+"<br />"+params.marker+dataset[params.dataIndex].time+" : "+dataset[params.dataIndex].score+"分";
                     return result;
                 }
             },
@@ -1361,20 +638,30 @@
                     show:false
                 }
             },
-            series: [{
-                type: 'effectScatter',
-                symbolSize: 20,
-                color:'purple',
-                data: test,
-            },
+            series: [
                 {
-                    name:"骑士",
-                    symbolSize: 20,
-                    data: listqi,
+                    type: 'effectScatter',
+                    symbolSize: 10,
+                    data: test,
+                    itemStyle : {
+                        normal: {
+                            color: 'purple',
+                            opacity:1,
+                            lineStyle: {
+                                type: 'solid'
+                            },
+                            label:{show:false}
+                        }
+                    },
+                },
+                {
+                    name:(flag==1?"骑士":"勇士"),
+                    symbolSize: 10,
+                    data: test,
                     itemStyle : {
                         normal: {
                             borderWidth:1,
-                            color: "red",
+                            color: (flag==1?"red":"blue"),
                             opacity:1,
                             lineStyle: {
                                 type: 'solid'
@@ -1384,27 +671,11 @@
                     },
                     type: 'scatter'
                 },
-                {
-                    name:"勇士",
-                    symbolSize: 20,
-                    data: listyong,
-                    itemStyle : {
-                        normal: {
-                            borderWidth:1,
-                            color: "blue",
-                            opacity:1,
-                            lineStyle: {
-                                type: 'solid'
-                            },
-                            label:{show:false}
-                        }
-                    },
-                    type: 'scatter'
-                }]
+            ]
         };
         option2 = {
             title: {
-                text: '\n单场比赛时间进度',
+                text: '\n单节比赛时间进度',
                 x:'center',
                 textStyle:{
                     fontSize: 20,color:'black',
@@ -1416,14 +687,14 @@
             x:'10%',
             series : [
                 {
-                    center:["50%","66%"],
+                    center:["50%","60%"],
                     name: '比赛时间',
                     type: 'gauge',
                     z: 3,
                     min: 0,
                     max: 12,
                     splitNumber: 12,
-                    radius: '85%',
+                    radius: '80%',
                     axisLine: {            // 坐标轴线
                         lineStyle: {       // 属性lineStyle控制线条样式
                             width: 8,
@@ -1458,7 +729,7 @@
                             value = (value + '').split('.');
                             value.length < 2 && (value.push('00'));
                             return ('00' + value[0]).slice(-2)
-                                + '.' + (value[1] + '00').slice(0, 2);
+                                + ':' + (value[1] + '00').slice(0, 2);
                         },
                         fontWeight: 'bolder',
                         borderRadius: 3,
@@ -1486,110 +757,302 @@
             ]
         };
 
-        myChart1.setOption(option1);
-        myChart2.setOption(option2);
-
-    });
-
-    option2 = {
-        title: {
-            text: '\n单场比赛时间进度',
-            x:'center',
-            textStyle:{
-                fontSize: 20,color:'black',
+        var ind=0;
+        TimeLine_Chart.on('timelinechanged', function(timelineIndex){
+            console.log(timelineIndex.currentIndex);
+            var arrIndex= parseInt(timelineIndex.currentIndex);
+            MainView_Chart.clear();
+            Progress_Chart.clear();
+            //设置比分变化
+            sc_arr=score[arrIndex].split("-");
+            qiscores.innerText=sc_arr[0];
+            yongscores.innerText=sc_arr[1];
+            if(Number(sc_arr[0])/(Number(sc_arr[0])+Number(sc_arr[1]))==1){
+                document.getElementById("score_subline").style.visibility="hidden";
             }
-        },
-        tooltip: {
-            formatter: "{a} <br/>{c} {b}"
-        },
-        x:'10%',
-        series : [
-            {
-                center:["50%","66%"],
-                name: '比赛时间',
-                type: 'gauge',
-                z: 3,
-                min: 0,
-                max: 12,
-                splitNumber: 12,
-                radius: '85%',
-                axisLine: {            // 坐标轴线
-                    lineStyle: {       // 属性lineStyle控制线条样式
-                        width: 8,
-                        color: [[0.2, '#3434c2'], [0.8, '#d58100'], [1, '#c72800']]
-                    },
+            else{
+                document.getElementById("score_subline").style.visibility="visible";
+                line.style.paddingLeft=100*Number(sc_arr[0])/(Number(sc_arr[0])+Number(sc_arr[1]))+"%";
+            }            //设置时间进度变化
+            test=[];
+            tim=((Number(dataset[arrIndex].time.split(":")[0])+Number(dataset[arrIndex].time.split(":")[1])/100)).toFixed(2);
+            test[0]=dataset[arrIndex].position;
+            flag=(dataset[arrIndex].team=="骑士"?1:0);
+            listqi=[];listyong=[];
+            console.log("arrIndex:"+arrIndex)
+            for(let i=0;i<=arrIndex;i++){
+                if(dataset[i].team=="骑士"){
+                    listqi.push(dataset[i].position);
+                }
+                else listyong.push(dataset[i].position)
+            }
+
+            option1 = {
+                color:['red','blue'],
+                legend:{
+                    orient: 'vertical',
+                    show:true,
+                    data: ['骑士','勇士'],
+                    right:'0%',
+                    top:'10%'
                 },
-                axisTick: {            // 坐标轴小标记
-                    length: 11,        // 属性length控制线长
-                    lineStyle: {       // 属性lineStyle控制线条样式
-                        color: 'auto'
+                tooltip:{
+                    trigger:'item',
+                    formatter: function(params) {
+                        var result="";
+                        let te,n,ti,sc;
+                        let count=0;
+                        for(let i=0;i<dataset.length;i++){
+                            if(dataset[i].team==params.seriesName){
+                                if(count==params.dataIndex){
+                                    result += dataset[i].team+" : "+dataset[i].name+"<br />"+params.marker+dataset[i].time+" : "+dataset[i].score+"分";
+                                    break;
+                                }
+                                else count++;
+                            }
+                        }
+                        return result;
                     }
                 },
-                splitLine: {           // 分隔线
-                    length: 13,         // 属性length控制线长
-                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                        color: 'auto'
+                xAxis: {
+                    min:0,
+                    max:15,
+                    show:false,
+                    splitLine:{
+                        show:false
                     }
                 },
-                axisLabel: {
-                    textStyle:{
-                        fontWeight:'bold',
-                    },
+                yAxis: {
+                    min:0,
+                    max:15,
+                    show:false,
+                    splitLine:{
+                        show:false
+                    }
                 },
+                series: [{
+                    type: 'effectScatter',
+                    symbolSize: 10,
+                    color:'purple',
+                    data: test,
+                },
+                    {
+                        name:"骑士",
+                        symbolSize: 10,
+                        data: listqi,
+                        itemStyle : {
+                            normal: {
+                                borderWidth:1,
+                                color: "red",
+                                opacity:1,
+                                lineStyle: {
+                                    type: 'solid'
+                                },
+                                label:{show:false}
+                            }
+                        },
+                        type: 'scatter'
+                    },
+                    {
+                        name:"勇士",
+                        symbolSize: 10,
+                        data: listyong,
+                        itemStyle : {
+                            normal: {
+                                borderWidth:1,
+                                color: "blue",
+                                opacity:1,
+                                lineStyle: {
+                                    type: 'solid'
+                                },
+                                label:{show:false}
+                            }
+                        },
+                        type: 'scatter'
+                    }]
+            };
+            option2 = {
                 title: {
-                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                    fontWeight: 'bolder',
-                    fontSize: 15,
+                    text: '\n单场比赛时间进度',
+                    x:'center',
+                    textStyle:{
+                        fontSize: 20,color:'black',
+                    }
                 },
-                detail: {
-                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                    formatter: function (value) {
-                        value = (value + '').split('.');
-                        value.length < 2 && (value.push('00'));
-                        return ('00' + value[0]).slice(-2)
-                            + '.' + (value[1] + '00').slice(0, 2);
-                    },
-                    fontWeight: 'bolder',
-                    borderRadius: 3,
-                    backgroundColor: '#444',
-                    borderColor: '#aaa',
-                    shadowBlur: 5,
-                    shadowColor: '#333',
-                    shadowOffsetX: 0,
-                    shadowOffsetY: 3,
-                    borderWidth: 2,
-                    textBorderColor: '#000',
-                    textBorderWidth: 2,
-                    textShadowBlur: 2,
-                    textShadowColor: '#fff',
-                    textShadowOffsetX: 0,
-                    textShadowOffsetY: 0,
-                    fontFamily: 'Arial',
-                    width: 30,
-                    color: '#eee',
-                    fontSize:10,
-                    rich: {}
+                tooltip: {
+                    formatter: "{a} <br/>{c} {b}"
                 },
-                data: [{value: tim, name: '比赛进度'}]
-            }
-        ]
-    };
+                x:'10%',
+                series : [
+                    {
+                        center:["50%","63%"],
+                        name: '比赛时间',
+                        type: 'gauge',
+                        z: 3,
+                        min: 0,
+                        max: 12,
+                        splitNumber: 12,
+                        radius: '80%',
+                        axisLine: {            // 坐标轴线
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                width: 8,
+                                color: [[0.2, '#3434c2'], [0.8, '#d58100'], [1, '#c72800']]
+                            },
+                        },
+                        axisTick: {            // 坐标轴小标记
+                            length: 11,        // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        splitLine: {           // 分隔线
+                            length: 13,         // 属性length控制线长
+                            lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                                color: 'auto'
+                            }
+                        },
+                        axisLabel: {
+                            textStyle:{
+                                fontWeight:'bold',
+                            },
+                        },
+                        title: {
+                            // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                            fontWeight: 'bolder',
+                            fontSize: 15,
+                        },
+                        detail: {
+                            // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                            formatter: function (value) {
+                                value = (value + '').split('.');
+                                value.length < 2 && (value.push('00'));
+                                return ('00' + value[0]).slice(-2)
+                                    + ':' + (value[1] + '00').slice(0, 2);
+                            },
+                            fontWeight: 'bolder',
+                            borderRadius: 3,
+                            backgroundColor: '#444',
+                            borderColor: '#aaa',
+                            shadowBlur: 5,
+                            shadowColor: '#333',
+                            shadowOffsetX: 0,
+                            shadowOffsetY: 3,
+                            borderWidth: 2,
+                            textBorderColor: '#000',
+                            textBorderWidth: 2,
+                            textShadowBlur: 2,
+                            textShadowColor: '#fff',
+                            textShadowOffsetX: 0,
+                            textShadowOffsetY: 0,
+                            fontFamily: 'Arial',
+                            width: 30,
+                            color: '#eee',
+                            fontSize:10,
+                            rich: {}
+                        },
+                        data: [{value: tim, name: '比赛进度'}]
+                    }
+                ]
+            };
 
-    myChart.setOption(option);
-    myChart1.setOption(option1);
-    myChart2.setOption(option2)
+            MainView_Chart.setOption(option1);
+            Progress_Chart.setOption(option2);
+
+        });
+        TimeLine_Chart.setOption(option);
+        MainView_Chart.setOption(option1);
+        Progress_Chart.setOption(option2)
+    }
+    main_process();
 </script>
+<!--获取小节下标改变评论以及中间视图旭日图-->
+<script>
+    function ChangeSec(){
+        var objs = document.getElementById("sec");
+        var idx = objs.selectedIndex;
+        if(idx==0){
+            dataset=dataset1;
+            time=time1;
+            score=score1;
+            eff1=qieff[0];
+            eff2=yoeff[0];
+            SunBurstChart.clear()
+            TimeLine_Chart.clear();
+            Progress_Chart.clear();
+            MainView_Chart.clear();
+            effiChart.clear();
+            main_process();
+            DrawSunburst(AuReviewG2_1);
+            Draweff(eff1,eff2);
+        }
+        if(idx==1){
+            dataset=dataset2;
+            time=time2;
+            score=score2;
+            eff1=qieff[1];
+            eff2=yoeff[1];
+            TimeLine_Chart.clear();
+            Progress_Chart.clear();
+            MainView_Chart.clear();
+            effiChart.clear();
+            main_process();
+            DrawSunburst(AuReviewG2_2);
+            Draweff(eff1,eff2);
+        }
+        if(idx==2){
+            dataset=dataset3;
+            time=time3;
+            score=score3;
+            eff1=qieff[2];
+            eff2=yoeff[2];
+            TimeLine_Chart.clear();
+            Progress_Chart.clear();
+            MainView_Chart.clear();
+            effiChart.clear();
+            main_process();
+            DrawSunburst(AuReviewG2_3);
+            Draweff(eff1,eff2);
+        }
+        if(idx==3){
+            dataset=dataset4;
+            time=time4;
+            score=score4;
+            eff1=qieff[3];
+            eff2=yoeff[3];
+            TimeLine_Chart.clear();
+            Progress_Chart.clear();
+            MainView_Chart.clear();
+            effiChart.clear();
+            main_process();
+            DrawSunburst(AuReviewG2_4);
+            Draweff(eff1,eff2);
+        }
+    }
+</script>
+
 
 <script src="js/qiinfor.js"></script>
 <script src="js/yonginfo.js"></script>
 <!-- 右侧视图-->
 <script>
+    var PlayerPosChart = echarts.init(document.getElementById('t1'));
     var myChart1_1 = echarts.init(document.getElementById('G1-kaili-ouwen0'));
-    function paint(){
+    var option1_1;
+    var PlayerPos_option;
+    function paintRadar(){
         if(num===2){
-            var option1_1= {
+            myChart1_1.clear();
+            PlayerPosChart.clear();
+            option1_1= {
+                color:['#d16b63','#6b96d1'],
                 tooltip: {
                     trigger: 'axis'
+                },
+                legend:{
+                    orient: 'vertical',
+                    show:true,
+                    data: ['骑士','勇士'],
+                    right:'10%'
                 },
                 radar: [
                     {
@@ -1614,13 +1077,15 @@
                 ],
                 series: [
                     {
+                        name:"赛场表现:",
                         type: 'radar',
                         tooltip: {
-                            trigger: 'item'
+                            trigger: 'item',
                         },
                         data: [
                             {
-                                value: choice1,
+                                name:"勇士",
+                                value: choice2,
                                 lineStyle: {
                                     color: '#72ACD1',
                                 },
@@ -1631,7 +1096,8 @@
                                 },
                             },
                             {
-                                value: choice2,
+                                name:'骑士',
+                                value: choice1,
                                 lineStyle: {
                                     color: '#d1afbf',
                                 },
@@ -1645,20 +1111,82 @@
                     }
 
                 ]
-            }
+            };
+            console.log("pos1:"+pos1);
+            console.log("pos2:"+pos2);
+            PlayerPos_option = {
+                xAxis: {
+                    min:0,
+                    max:15,
+                    show:false,
+                    splitLine:{
+                        show:false
+                    }
+                },
+                yAxis: {
+                    min:0,
+                    max:15,
+                    show:false,
+                    splitLine:{
+                        show:false
+                    }
+                },
+                series: [
+                    {
+                        name:"a",
+                        symbolSize: 10,
+                        data: pos1,
+                        itemStyle : {
+                            normal: {
+                                borderWidth:1,
+                                color: "red",
+                                opacity:0.6,
+                                lineStyle: {
+                                    type: 'solid'
+                                },
+                                label:{show:false}
+                            }
+                        },
+                        type: 'scatter'
+                    },
+                    {
+                        name:"b",
+                        symbolSize: 10,
+                        data: pos2,
+                        itemStyle : {
+                            normal: {
+                                borderWidth:1,
+                                color: "blue",
+                                opacity:1,
+                                lineStyle: {
+                                    type: 'solid'
+                                },
+                                label:{show:false}
+                            }
+                        },
+                        type: 'scatter'
+                    }]
+            };
         }
         else if(num===1){
             if(choice2===0){
-                var option1_1= {
+                myChart1_1.clear();
+                option1_1= {
+                    color:['#d16b63'],
                     tooltip: {
                         trigger: 'axis'
+                    },
+                    legend:{
+                        show:true,
+                        data: ['骑士'],
+                        right:'10%'
                     },
                     radar: [
                         {
                             indicator: [
                                 {text: '得分', max: 26},//这个地方要问一下有没有最大值
                                 {text: '抢断', max: 4},
-                                {text: '盖帽', max: 2},
+                                {text: '盖帽', max: 5},
                                 {text: '助攻', max: 9},
                                 {text: '篮板', max: 13}
                             ],
@@ -1676,63 +1204,15 @@
                     ],
                     series: [
                         {
+                            name:"赛场表现:",
                             type: 'radar',
                             tooltip: {
-                                trigger: 'item'
+                                trigger: 'item',
                             },
                             data: [
                                 {
+                                    name:'骑士',
                                     value: choice1,
-                                    lineStyle: {
-                                        color: '#72ACD1',
-                                    },
-                                    symbol: 'none',
-                                    areaStyle: {
-                                        opacity: 0.5,
-                                        color: "#0060b1",
-                                    },
-                                },
-                            ]
-                        }
-
-                    ]
-                }
-            }
-            else{
-                var option1_1= {
-                    tooltip: {
-                        trigger: 'axis'
-                    },
-                    radar: [
-                        {
-                            indicator: [
-                                {text: '得分', max: 26},//这个地方要问一下有没有最大值
-                                {text: '抢断', max: 4},
-                                {text: '盖帽', max: 2},
-                                {text: '助攻', max: 9},
-                                {text: '篮板', max: 13}
-                            ],
-                            center: ['50%', '48%'],
-                            radius: '69%',
-                            opacity: 1,
-                            name: {
-                                formatter: '【{value}】',
-                                textStyle: {
-                                    color: 'black'
-                                }
-                            },
-
-                        }
-                    ],
-                    series: [
-                        {
-                            type: 'radar',
-                            tooltip: {
-                                trigger: 'item'
-                            },
-                            data: [
-                                {
-                                    value: choice2,
                                     lineStyle: {
                                         color: '#d1afbf',
                                     },
@@ -1748,14 +1228,150 @@
                     ]
                 }
             }
+            if(choice1===0){
+                myChart1_1.clear();
+                option1_1= {
+                    color:['#6b96d1'],
+                    tooltip: {
+                        trigger: 'axis',
+                    },
+                    legend:{
+                        show:true,
+                        data: ['勇士'],
+                        right:'10%'
+                    },
+                    radar: [
+                        {
+                            indicator: [
+                                {text: '得分', max: 26},//这个地方要问一下有没有最大值
+                                {text: '抢断', max: 4},
+                                {text: '盖帽', max: 5},
+                                {text: '助攻', max: 9},
+                                {text: '篮板', max: 13}
+                            ],
+                            center: ['50%', '48%'],
+                            radius: '69%',
+                            opacity: 1,
+                            name: {
+                                formatter: '【{value}】',
+                                textStyle: {
+                                    color: 'black'
+                                }
+                            },
+
+                        }
+                    ],
+                    series: [
+                        {
+                            name:"赛场表现:",
+                            type: 'radar',
+                            tooltip: {
+                                trigger: 'item',
+                            },
+                            data: [
+                                {
+                                    name:'勇士',
+                                    value: choice2,
+                                    lineStyle: {
+                                        color: '#72ACD1',
+                                    },
+                                    symbol: 'none',
+                                    areaStyle: {
+                                        opacity: 0.5,
+                                        color: "#0060b1",
+                                    },
+                                },
+                            ]
+                        }
+
+                    ]
+                }
+            }
+            if(pos2===0){
+                PlayerPosChart.clear();
+                PlayerPos_option = {
+                    xAxis: {
+                        min:0,
+                        max:15,
+                        show:false,
+                        splitLine:{
+                            show:false
+                        }
+                    },
+                    yAxis: {
+                        min:0,
+                        max:15,
+                        show:false,
+                        splitLine:{
+                            show:false
+                        }
+                    },
+                    series: [{
+                        symbolSize: 10,
+                        data: pos1,
+                        itemStyle : {
+                            normal: {
+                                borderWidth:1,
+                                color: "red",
+                                opacity:0.6,
+                                lineStyle: {
+                                    type: 'solid'
+                                },
+                                label:{show:false}
+                            }
+                        },
+                        type: 'scatter'
+                    }]
+                };
+            }
+            if(pos1===0){
+                PlayerPosChart.clear();
+                PlayerPos_option = {
+                    xAxis: {
+                        min:0,
+                        max:15,
+                        show:false,
+                        splitLine:{
+                            show:false
+                        }
+                    },
+                    yAxis: {
+                        min:0,
+                        max:15,
+                        show:false,
+                        splitLine:{
+                            show:false
+                        }
+                    },
+                    series: [
+                        {
+                            symbolSize: 10,
+                            data: pos2,
+                            itemStyle : {
+                                normal: {
+                                    borderWidth:1,
+                                    color: "blue",
+                                    opacity:0.6,
+                                    lineStyle: {
+                                        type: 'solid'
+                                    },
+                                    label:{show:false}
+                                }
+                            },
+                            type: 'scatter'
+                        }]
+                };
+            }
         }
         myChart1_1.setOption(option1_1);
-
+        PlayerPosChart.setOption(PlayerPos_option);
     }
     var num = 1;
     var choice1=qisc1;
+    var pos1=qipos1;
     var choice2=0;
-    paint();
+    var pos2=0;
+    paintRadar();
     function avacli(id){
         switch(id){
             case "selectone":
@@ -1778,67 +1394,71 @@
                             console.log(1);
                             info.innerHTML=qi11;
                             choice2=0;
-                            paint();
+                            pos2=0;
+                            console.log("pos2:"+pos2);
+                            paintRadar();
                             break;
                         case "LeBron James":
-
                             info.innerHTML=qi12;
                             choice2=0;
-                            paint();
+                            pos2=0;
+                            paintRadar();
                             break;
                         case "Kevin Wesley Love":
                             info.innerHTML=qi13;
                             choice2=0;
-                            paint();
+                            pos2=0;
+                            paintRadar();
                             break;
                         case "Tristan Trevor James Thompson":
                             info.innerHTML=qi14;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Earl Smith III":
                             info.innerHTML=qi15;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Iman Asante Shumpert":
                             info.innerHTML=qi16;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Richard Allen Jefferson":
                             info.innerHTML=qi17;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Channing Thomas Frye":
                             info.innerHTML=qi18;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Matthew Dellavedova":
                             info.innerHTML=qi19;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Dahntay Lavall Jones":
                             info.innerHTML=qi110;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Maurice Williams":
                             info.innerHTML=qi111;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "Kyrie Andrew Irving":
                             info.innerHTML=qi112;
-                            choice2=0;
-                            paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                         case "James Andrew Jones":
                             info.innerHTML=qi113;
-                            choice2=0;paint();
+                            choice2=0; pos2=0;
+                            paintRadar();
                             break;
                     }
                 };
@@ -1855,15 +1475,18 @@
                 tempone.style.color="black";
                 break;
             case "button_zhanmusi":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc2;
+                    pos1=qipos2;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi12;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc2;
+                    pos1=qipos2;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -1885,20 +1508,23 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
-
             case "button_kaiwen-lefu":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc3;
+                    pos1=qipos3;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi13;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc3;
+                    pos1=qipos3;
+
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -1920,20 +1546,23 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_telisitan-tangpusen":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc4;
+                    pos1=qipos4;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi14;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc4;
+                    pos1=qipos4;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -1955,20 +1584,24 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_JR-simisi":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc5;
+                    pos1=qipos5;
+
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi15;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc5;
+                    pos1=qipos5;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -1990,20 +1623,23 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_xiangbote":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc6;
+                    pos1=qipos6;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi16;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc6;
+                    pos1=qipos6;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -2025,20 +1661,23 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_jiefusen":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc7;
+                    pos1=qipos7;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi17;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc7;
+                    pos1=qipos7;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -2060,19 +1699,23 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_qianning-fulai":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc8;
+                    pos1=qipos8;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi18;
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
-                    choice1=qisc2;
+                    choice1=qisc8;
+                    pos1=qipos8;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -2094,19 +1737,22 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_maxiu":
+                pos2=0;
                 if(num===1) {
                     choice1=qisc9;
+                    pos1=qipos9;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi19;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
-                    choice1=qisc8;
+                    choice1=qisc9;
+                    pos1=qipos9;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -2128,16 +1774,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_dengtai-qiongsi":
+                pos2=0;
+                pos1=qipos10;
                 if(num===1) {
                     choice1=qisc10;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi110;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc9;
@@ -2162,17 +1810,19 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_weilianmusi":
+                pos2=0;
+                pos1=qipos11;
                 if(num===1) {
                     choice1=qisc11;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi111;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc10;
@@ -2197,17 +1847,19 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_mozigefu":
+                pos2=0;
+                pos1=qipos12;
                 if(num===1) {
                     choice1=qisc12;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi112;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
                     choice1=qisc11;
@@ -2232,20 +1884,22 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_qiongsi":
+                pos2=0;
+                pos1=qipos13;
                 if(num===1) {
                     choice1=qisc13;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi113;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
-                    choice1=qisc12;
+                    choice1=qisc13;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -2267,20 +1921,22 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_ouwen":
+                pos2=0;
+                pos1=qipos1;
                 if(num===1) {
                     choice1=qisc1;
                     choice2=0;
                     let info = document.getElementById("ups");
                     info.innerHTML = qi11;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice2!=0&&choice1==0){
-                    choice1=qisc13;
+                    choice1=qisc1;
                     let info = document.getElementById("ups");
                     let rt = info.getElementsByTagName("img");
                     let yoname = document.getElementById("yoplayer");
@@ -2302,17 +1958,19 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_gelin":
+                pos2=yopos1;
                 if(num===1) {
                     choice1=0;
+                    pos1=0;
                     choice2=yosc1;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong11;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc1;
@@ -2337,16 +1995,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_baensi":
+                pos2=yopos2;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc2;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong12;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc2;
@@ -2371,16 +2031,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_sidifen-kuli":
+                pos2=yopos3;
                 if(num===1){
+                    pos1=0;
                     choice1=0;
                     choice2=yosc3;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong13;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc3;
@@ -2405,16 +2067,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_bogute":
+                pos2=yopos4;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc4;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong14;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc4;
@@ -2439,16 +2103,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_kelai-tangpusen":
+                pos2=yopos5;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc5;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong15;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc5;
@@ -2473,17 +2139,19 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_liwensidun":
+                pos2=yopos6;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc6;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong16;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc6;
@@ -2508,16 +2176,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_yigedala":
+                pos2=yopos7;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc7;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong17;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc7;
@@ -2542,16 +2212,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_babosa":
+                pos2=yopos8;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc8;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong18;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc8;
@@ -2576,16 +2248,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_aizeli":
+                pos2=yopos9;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc9;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong19;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc9;
@@ -2610,16 +2284,18 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
             case "button_walaiqiao":
+                pos2=yopos10;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc10;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong110;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc10;
@@ -2644,17 +2320,19 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
 
                 break;
             case "button_kelake":
+                pos2=yopos11;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc11;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong111;
-                    paint();
+                    paintRadar();
                 }
                 break;
                 if(num===2&&choice1!=0&&choice2==0){
@@ -2680,18 +2358,56 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
             case "button_sibeici":
+                pos2=yopos12;
                 if(num===1) {
+                    pos1=0;
                     choice1=0;
                     choice2=yosc12;
                     let info = document.getElementById("ups");
                     info.innerHTML = yong112;
-                    paint();
+                    paintRadar();
                 }
                 if(num===2&&choice1!=0&&choice2==0){
                     choice2=yosc12;
+                    let info = document.getElementById("ups");
+                    let tx = info.getElementsByTagName("img");
+                    let qiname = document.getElementById("qiplayer");
+                    let qienname=document.getElementById("qienplayer");
+                    let h="<div class=\"col-md-12\" style=\"padding-top:4%;padding-bottom:4%;border-bottom: white solid 1px\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\""+Array.from(tx)[0].src+"\">\n" +
+                        "                            </div>\n" +
+                        "                            <div id=\"qiplayer\" class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" + qiname.innerText+
+                        "                             <div id=\"qienplayer\"style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">"+qienname.innerText+"</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"col-md-12\" style=\"padding-top:4%;\">\n" +
+                        "                            <div class=\"col-md-3\">\n" +
+                        "                                <img style=\"height:5vh;width:auto;float:right\" src=\"img/photo/yong/lashen.png\">\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"col-md-8\" style=\"padding-top:0.5vh;font-size:2vh;color:black;font-weight: bold\">\n" +
+                        "                               马利斯-斯贝茨<div style=\"font-size: 1.5vh;display:inline-block;margin-left:2%;color: #666666\">JMarreese Speights</div></div>\n" +
+                        "                            </div>\n" +
+                        "                        </div>";
+                    info.innerHTML=h;
+                    paintRadar();
+                }
+                break;
+            case "button_lashen":
+                pos2=yopos13;
+                if(num===1) {
+                    pos1=0;
+                    choice1=0;
+                    choice2=yosc13;
+                    let info = document.getElementById("ups");
+                    info.innerHTML = yong113;
+                    paintRadar();
+                }
+                if(num===2&&choice1!=0&&choice2==0){
+                    choice2=yosc13;
                     let info = document.getElementById("ups");
                     let tx = info.getElementsByTagName("img");
                     let qiname = document.getElementById("qiplayer");
@@ -2713,7 +2429,7 @@
                         "                            </div>\n" +
                         "                        </div>";
                     info.innerHTML=h;
-                    paint();
+                    paintRadar();
                 }
                 break;
         }
@@ -2793,6 +2509,9 @@
         // }]),
         title: {
             text: '克利夫兰骑士 VS 金州勇士(球员实力分布)'
+        },
+        tooltip:{
+            show:'item'
         },
         legend: {
             right: 10,
@@ -2978,134 +2697,111 @@
 <script>
     //step3: 初始化Echarts图表
     var myChart = echarts.init(document.getElementById('main4'));
-    // Schema:
-    // date,AQIindex,PM2.5,PM10,CO,NO2,SO2
+
     var dataML = [
-        [20160525, 0.486, 0.444, 0.727, 38, 20, 7, 4, 10, 100],
-        [20160523, 0.369, 0.419, 0.806, 45, 19, 6, 4, 6, 105],
-        [20160521, 0.471, 0.341, 0.889, 44, 32, 9, 5, 11, 120],
-        [20160519, 0.392, 0.378, 0.808, 55, 28, 11, 10, 17, 118],
-        [20160517, 0.425, 0.313, 0.76, 40, 19, 3, 6, 13, 103],
-        [20160515, 0.37, 0.357, 0.85, 46, 17, 9, 4, 12, 100],
-        [20160512, 0.382, 0.233, 0.895, 49, 15, 10, 4, 10, 92],
-        [20160509, 0.432, 0.25, 0.759, 34, 25, 9, 4, 12, 101],
-        [20160507, 0.488, 0.4, 0.879, 42, 22, 12, 2, 10, 125],
-        [20160505, 0.461, 0.323, 0.808, 43, 19, 6, 3, 13, 101],
-        [20160502, 0.422, 0.259, 0.783, 35, 15, 7, 4, 9, 95],
-        [20160429, 0.363, 0.27, 0.867, 36, 20, 10, 4, 9, 89],
-        [20160427, 0.519, 0.333, 0.708, 40, 21, 3, 6, 10, 108],
-        [20160423, 0.482, 0.417, 0.857, 48, 34, 8, 3, 14, 115],
-        [20160421, 0.533, 0.393, 0.889, 45, 23, 11, 6, 14, 107],
-        [20160419, 0.448, 0.393, 0.9, 43, 26, 9, 3, 13, 98],
-        [20160416, 0.483, 0.314, 0.941, 42, 25, 10, 5, 7, 111],
-        [20160413, 0.455, 0.333, 0.643, 45, 23, 4, 4, 12, 101],
-        [20160409, 0.523, 0.432, 0.706, 54, 24, 10, 5, 18, 120],
-        [20160407, 0.448, 0.39, 0.852, 47, 26, 7, 5, 11, 117],
-        [20160405, 0.538, 0.346, 0.8, 43, 27, 2, 5, 14, 111],
-        [20160403, 0.419, 0.395, 0.857, 52, 29, 9, 1, 7, 115],
-        [20160401, 0.5, 0.514, 0.818, 39, 31, 9, 8, 14, 121],
-        [20160330, 0.517, 0.474, 0.778, 47, 35, 10, 4, 11, 124],
-        [20160328, 0.449, 0.426, 0.773, 44, 32, 8, 6, 8, 117],
-        [20160326, 0.488, 0.429, 1, 39, 28, 13, 7, 15, 112],
-        [20160324, 0.584, 0.423, 1, 35, 29, 6, 11, 13, 114],
-        [20160322, 0.5, 0.52, 0.857, 46, 20, 7, 7, 21, 109],
-        [20160320, 0.517, 0.389, 0.905, 52, 30, 11, 5, 17, 123],
-        [20160318, 0.557, 0.425, 0.591, 50, 36, 5, 6, 14, 128],
-        [20160317, 0.476, 0.5, 0.786, 38, 25, 2, 2, 12, 107],
-        [20160314, 0.396, 0.39, 0.793, 52, 21, 15, 6, 17, 111],
-        [20160311, 0.476, 0.282, 0.588, 43, 20, 8, 3, 20, 101],
-        [20160310, 0.568, 0.525, 0.769, 44, 32, 8, 8, 19, 125],
-        [20160308, 0.535, 0.351, 0.889, 51, 31, 10, 12, 16, 127],
-        [20160305, 0.416, 0.281, 0.75, 47, 16, 1, 5, 13, 95],
-        [20160303, 0.385, 0.359, 0.792, 50, 22, 8, 3, 15, 107],
-        [20160301, 0.556, 0.357, 0.905, 32, 29, 9, 6, 14, 119],
-        [20160226, 0.489, 0.472, 0.643, 45, 33, 7, 5, 8, 118],
-        [20160224, 0.418, 0.393, 0.786, 42, 30, 6, 2, 13, 98],
-        [20160222, 0.426, 0.467, 0.813, 47, 24, 8, 3, 9, 120],
-        [20160213, 0.478, 0.421, 0.833, 52, 32, 8, 8, 14, 129],
-        [20160211, 0.543, 0.29, 0.9, 40, 32, 12, 3, 13, 127],
-        [20160209, 0.384, 0.4, 0.828, 47, 27, 8, 5, 12, 104],
-        [20160207, 0.46, 0.325, 0.788, 50, 29, 6, 2, 8, 119],
-        [20160205, 0.461, 0.355, 0.813, 42, 27, 12, 0, 10, 119],
-        [20160203, 0.457, 0.273, 0.839, 56, 21, 10, 5, 14, 121],
-        [20160131, 0.398, 0.259, 0.846, 39, 16, 9, 4, 16, 92],
-        [20160127, 0.446, 0.5, 0.842, 44, 24, 6, 5, 7, 123],
-        [20160125, 0.484, 0.389, 0.944, 47, 27, 4, 1, 19, 119],
-        [20160123, 0.418, 0.316, 0.783, 45, 28, 2, 5, 9, 106],
-        [20160122, 0.44, 0.4, 0.686, 46, 25, 7, 5, 16, 120],
-        [20160119, 0.484, 0.472, 0.875, 38, 31, 19, 9, 10, 119],
-        [20160117, 0.5, 0.25, 0.72, 38, 27, 9, 7, 14, 111],
-        [20160116, 0.446, 0.241, 0.905, 42, 20, 9, 2, 10, 108],
-        [20160113, 0.471, 0.361, 0.806, 58, 24, 16, 8, 21, 140],
-        [20160111, 0.457, 0.314, 0.625, 55, 32, 10, 4, 9, 122],
-        [20160108, 0.463, 0.313, 0.741, 39, 26, 18, 7, 18, 104],
-        [20160106, 0.518, 0.515, 0.941, 41, 30, 9, 4, 15, 121],
-        [20160105, 0.512, 0.452, 0.806, 38, 28, 9, 6, 11, 123],
-        [20160103, 0.448, 0.2, 0.793, 39, 21, 9, 6, 10, 107],
-        [20160101, 0.549, 0.35, 0.714, 45, 18, 4, 6, 9, 122],
+        [20160102, 0.415, 0.324, 0.615, 53, 24, 6, 1, 4, 104],
+        [20160104, 0.553, 0.515, 0.885, 40, 25, 6, 4, 13, 122],
+        [20160106, 0.539, 0.414, 0.684, 44, 16, 9, 3, 10, 121],
+        [20160108, 0.531, 0.481, 0.897, 43, 23, 8, 5, 11, 125],
+        [20160110, 0.389, 0.281, 0.696, 51, 20, 9, 2, 10, 95],
+        [20160112, 0.412, 0.386, 0.813, 46, 28, 12, 4, 9, 110],
+        [20160114, 0.462, 0.385, 0.818, 43, 15, 4, 2, 17, 95],
+        [20160115, 0.391, 0.228, 0.652, 49, 19, 10, 6, 14, 91],
+        [20160118, 0.506, 0.463, 0.75, 47, 29, 5, 2, 13, 115],
+        [20160120, 0.506, 0.463, 0.75, 47, 29, 5, 2, 13, 115],
+        [20160121, 0.372, 0.166, 0.409, 48, 17, 5, 5, 4, 83],
+        [20160123, 0.506, 0.355, 0.65, 43, 30, 7, 3, 15, 114],
+        [20160125, 0.556, 0.392, 0.875, 37, 34, 12, 3, 13, 115],
+        [20160127, 0.47, 0.391, 0.930, 47, 20, 4, 1, 7, 114],
+        [20160129, 0.549, 0.391, 0.857, 43, 24, 4, 4, 9, 117],
+        [20160130, 0.5, 0.318, 0.696, 45, 22, 8, 3, 16, 111],
+        [20160201, 0.458, 0.357, 0.786, 28, 16, 9, 5, 7, 97],
+        [20160205, 0.425, 0.267, 0.6, 47, 21, 8, 6, 14, 103],
+        [20160206, 0.433, 0.341, 1.0, 49, 21, 6, 6, 12, 99],
+        [20160208, 0.479, 0.457, 0.737, 53, 27, 7, 5, 14, 120],
+        [20160210, 0.511, 0.419, 0.611, 46, 26, 6, 1, 6, 120],
+        [20160218, 0.462, 0.292, 0.882, 52, 21, 8, 8, 10, 106],
+        [20160221, 0.512, 0.435, 0.852, 49, 25, 4, 1, 12, 115],
+        [20160222, 0.43, 0.308, 0.923, 40, 19, 8, 2, 17, 88],
+        [20160224, 0.495, 0.406, 0.647, 47, 26, 11, 1, 9, 114],
+        [20160226, 0.473, 0.5, 0.714, 39, 21, 4, 0, 14, 97],
+        [20160228, 0.4, 0.31, 0.867, 39, 20, 6, 2, 14, 99],
+        [20160229, 0.422, 0.31, 0.84, 40, 22, 4, 2, 11, 100],
+        [20160304, 0.467, 0.444, 0.75, 47, 24, 9, 5, 9, 108],
+        [20160305, 0.512, 0.333, 0.765, 47, 27, 8, 4, 15, 120],
+        [20160307, 0.45, 0.241, 0.828, 49, 23, 9, 7, 25, 103],
+        [20160309, 0.433, 0.295, 0.829, 51, 17, 5, 1, 13, 120],
+        [20160310, 0.529, 0.457, 0.7, 38, 22, 4, 6, 8, 120],
+        [20160313, 0.488, 0.486, 0.7, 49, 23, 3, 4, 8, 114],
+        [20160316, 0.398, 0.238, 0.625, 39, 18, 6, 3, 8, 85],
+        [20160318, 0.443, 0.278, 0.846, 48, 21, 9, 4, 16, 99],
+        [20160319, 0.5, 0.464, 0.741, 41, 23, 7, 4, 19, 109],
+        [20160321, 0.526, 0.417, 0.846, 26, 19, 6, 3, 14, 101],
+        [20160323, 0.558, 0.484, 0.765, 43, 38, 10, 4, 12, 124],
+        [20160324, 0.482, 0.294, 0.852, 42, 29, 6, 8, 12, 113],
+        [20160326, 0.438, 0.263, 0.778, 45, 22, 3, 2, 14, 95],
+        [20160329, 0.446, 0.412, 0.76, 53, 21, 6, 5, 9, 107],
+        [20160331, 0.36, 0.35, 0.857, 38, 21, 5, 5, 11, 100],
+        [20160401, 0.437, 0.316, 0.792, 50, 29, 10, 7, 17, 107],
+        [20160403, 0.398, 0.316, 0.645, 57, 27, 9, 6, 12, 110],
+        [20160405, 0.542, 0.552, 0.462, 46, 34, 7, 1, 17, 112],
+        [20160406, 0.547, 0.5, 0.9, 41, 30, 4, 8, 16, 109],
+        [20160409, 0.473, 0.276, 0.912, 33, 15, 7, 3, 10, 109],
+        [20160411, 0.434, 0.475, 0.611, 42, 24, 5, 5, 15, 102],
+        [20160413, 0.482, 0.379, 0.9, 47, 17, 9, 4, 15, 109],
+        [20160417, 0.474, 0.389, 0.733, 43, 21, 4, 7, 10, 110]
     ];
 
     var dataYS = [
-        [20160520, 0.465, 0.308, 0.789, 56, 30, 10, 5, 15, 119],
-        [20160518, 0.488, 0.308, 0.87, 49, 27, 9, 5, 13, 110],
-        [20160516, 0.512, 0.31, 0.778, 50, 30, 4, 9, 16, 114],
-        [20160514, 0.500, 0.515, 0.833, 42, 30, 13, 8, 14, 116],
-        [20160510, 0.494, 0.421, 0.783, 35, 25, 9, 7, 17, 118],
-        [20160508, 0.459, 0.351, 0.722, 42, 28, 6, 1, 15, 104],
-        [20160506, 0.467, 0.242, 0.696, 43, 24, 6, 2, 11, 108],
-        [20160504, 0.442, 0.424, 0.793, 35, 27, 6, 6, 8, 121],
-        [20160430, 0.462, 0.306, 0.833, 45, 24, 10, 5, 12, 115],
-        [20160428, 0.507, 0.318, 0.778, 38, 24, 7, 3, 20, 104],
-        [20160426, 0.528, 0.333, 0.806, 46, 32, 6, 9, 10, 129],
-        [20160424, 0.448, 0.385, 0.909, 39, 31, 7, 3, 8, 121],
-        [20160421, 0.472, 0.387, 0.895, 49, 27, 5, 2, 13, 113],
-        [20160418, 0.548, 0.429, 0.833, 50, 35, 4, 11, 12, 132],
-        [20160415, 0.533, 0.393, 0.889, 38, 31, 11, 6, 22, 131],
-        [20160413, 0.495, 0.467, 0.85, 53, 31, 9, 14, 21, 121],
-        [20160410, 0.500, 0.433, 0.857, 39, 32, 3, 5, 14, 117],
-        [20160409, 0.483, 0.4, 0.667, 58, 25, 8, 3, 14, 112],
-        [20160407, 0.546, 0.324, 0.867, 48, 34, 16, 8, 9, 131],
-        [20160405, 0.529, 0.541, 1, 38, 29, 2, 8, 13, 120],
-        [20160404, 0.439, 0.391, 0.8, 51, 30, 11, 5, 14, 108],
-        [20160402, 0.543, 0.382, 0.375, 55, 36, 11, 11, 24, 116],
-        [20160331, 0.602, 0.636, 0.833, 50, 41, 7, 10, 15, 137],
-        [20160329, 0.469, 0.45, 0.714, 45, 27, 11, 3, 14, 130],
-        [20160327, 0.536, 0.484, 0.867, 46, 30, 9, 8, 14, 118],
-        [20160324, 0.622, 0.52, 0.842, 37, 31, 3, 5, 13, 121],
-        [20160323, 0.400, 0.133, 0.714, 36, 22, 6, 2, 10, 91],
-        [20160321, 0.494, 0.361, 0.688, 50, 32, 6, 8, 15, 112],
-        [20160319, 0.484, 0.452, 0.714, 46, 39, 6, 7, 13, 117],
-        [20160318, 0.466, 0.333, 0.833, 43, 27, 7, 6, 13, 105],
-        [20160316, 0.470, 0.429, 0.773, 53, 25, 10, 6, 16, 110],
-        [20160313, 0.494, 0.375, 1, 44, 28, 7, 2, 14, 106],
-        [20160310, 0.442, 0.233, 0.773, 48, 34, 10, 6, 16, 111],
-        [20160308, 0.536, 0.514, 0.667, 44, 32, 10, 10, 17, 122],
-        [20160305, 0.400, 0.229, 0.826, 45, 26, 5, 2, 21, 95],
-        [20160302, 0.506, 0.424, 0.706, 39, 23, 14, 7, 13, 120],
-        [20160228, 0.402, 0.225, 0.9, 47, 16, 5, 3, 12, 96],
-        [20160227, 0.494, 0.354, 0.714, 37, 21, 7, 3, 8, 125],
-        [20160225, 0.505, 0.341, 0.846, 49, 35, 9, 8, 15, 121],
-        [20160223, 0.467, 0.389, 0.7, 46, 26, 8, 10, 17, 112],
-        [20160221, 0.457, 0.413, 0.833, 49, 32, 5, 11, 15, 125],
-        [20160213, 0.402, 0.342, 0.889, 49, 26, 1, 10, 8, 107],
-        [20160212, 0.494, 0.317, 0.667, 40, 29, 12, 7, 6, 115],
-        [20160210, 0.537, 0.361, 0.731, 36, 28, 8, 5, 12, 120],
-        [20160208, 0.506, 0.345, 0.714, 49, 30, 5, 9, 18, 117],
-        [20160206, 0.579, 0.471, 0.714, 52, 42, 14, 5, 11, 141],
-        [20160202, 0.467, 0.324, 0.947, 45, 31, 4, 9, 10, 115],
-        [20160131, 0.466, 0.289, 0.688, 37, 30, 13, 7, 15, 104],
-        [20160128, 0.541, 0.419, 0.813, 48, 39, 9, 7, 12, 132],
-        [20160126, 0.446, 0.364, 0.853, 53, 25, 8, 7, 14, 115],
-        [20160124, 0.568, 0.35, 0.905, 50, 34, 5, 6, 15, 126],
-        [20160121, 0.510, 0.432, 0.737, 50, 41, 8, 6, 10, 130],
-        [20160118, 0.488, 0.243, 0.704, 43, 31, 11, 8, 10, 112],
-        [20160116, 0.480, 0.49, 0.806, 57, 33, 8, 5, 10, 147],
-        [20160115, 0.600, 0.538, 0.7, 50, 38, 6, 4, 10, 142],
-        [20160113, 0.455, 0.422, 0.833, 49, 26, 9, 8, 10, 119],
-        [20160111, 0.576, 0.462, 0.846, 49, 38, 6, 8, 12, 146],
-        [20160108, 0.510, 0.311, 0.833, 49, 36, 9, 10, 15, 122],
-        [20160105, 0.505, 0.447, 0.857, 47, 29, 5, 8, 13, 127],
-        [20160103, 0.520, 0.378, 0.933, 47, 33, 8, 6, 14, 134],
+        [20160101, 0.5, 0.357, 0.652, 47, 34, 9, 5, 13, 111],
+        [20160104, 0.517, 0.441, 1.0, 37, 32, 4, 9, 11, 111],
+        [20160105, 0.465, 0.433, 0.762, 54, 26, 9, 9, 10, 109],
+        [20160108, 0.529, 0.563, 0.857, 48, 36, 6, 5, 15, 128],
+        [20160109, 0.563, 0.514, 0.733, 48, 35, 5, 8, 18, 128],
+        [20160111, 0.477, 0.304, 0.733, 49, 25, 5, 1, 9, 111],
+        [20160113, 0.477, 0.385, 0.8, 39, 25, 9, 11, 13, 110],
+        [20160114, 0.5, 0.394, 0.85, 47, 26, 12, 4, 19, 116],
+        [20160116, 0.362, 0.385, 0.739, 47, 18, 6, 9, 12, 95],
+        [20160118, 0.541, 0.475, 0.778, 37, 33, 7, 2, 8, 132],
+        [20160120, 0.526, 0.375, 0.65, 55, 38, 8, 9, 10, 125],
+        [20160122, 0.478, 0.424, 0.88, 50, 31, 9, 4, 17, 122],
+        [20160125, 0.518, 0.423, 0.84, 45, 31, 15, 3, 21, 120],
+        [20160127, 0.58, 0.483, 0.905, 40, 33, 5, 4, 9, 127],
+        [20160130, 0.495, 0.433, 0.5, 57, 37, 5, 7, 23, 108],
+        [201601031, 0.575, 0.552, 0.696, 44, 31, 8, 5, 18, 116],
+        [20160203, 0.527, 0.476, 0.552, 49, 35, 10, 5, 18, 134],
+        [20160206, 0.495, 0.269, 0.65, 46, 24, 7, 4, 10, 116],
+        [20160209, 0.468, 0.353, 0.885, 49, 28, 5, 6, 12, 123],
+        [20160210, 0.416, 0.35, 0.828, 50, 24, 12, 7, 13, 112],
+        [20160219, 0.391, 0.353, 0.75, 47, 25, 7, 4, 20, 105],
+        [20160220, 0.512, 0.355, 0.769, 39, 32, 8, 2, 14, 115],
+        [20160222, 0.438, 0.311, 0.833, 43, 30, 14, 8, 13, 102],
+        [20160224, 0.467, 0.464, 0.84, 43, 23, 7, 3, 13, 118],
+        [20160225, 0.602, 0.52, 0.688, 42, 35, 9, 4, 20, 130],
+        [20160227, 0.474, 0.438, 0.68, 32, 25, 15, 7, 11, 121],
+        [20160301, 0.398, 0.333, 0.882, 51, 28, 11, 3, 11, 109],
+        [20160303, 0.54, 0.324, 0.762, 40, 33, 11, 3, 8, 121],
+        [20160306, 0.402, 0.133, 0.81, 49, 32, 5, 3, 20, 95],
+        [20160307, 0.5, 0.457, 0.704, 50, 27, 13, 7, 24, 119],
+        [20160309, 0.571, 0.433, 0.6, 39, 36, 10, 7, 15, 115],
+        [20160311, 0.449, 0.45, 0.769, 56, 23, 5, 5, 8, 128],
+        [20160312, 0.5, 0.333, 0.848, 42, 28, 6, 9, 8, 123],
+        [20160314, 0.58, 0.48, 0.826, 46, 30, 6, 6, 18, 125],
+        [20160316, 0.505, 0.486, 0.917, 54, 32, 4, 8, 12, 121],
+        [20160318, 0.505, 0.579, 0.857, 42, 35, 8, 7, 12, 130],
+        [20160319, 0.378, 0.25, 0.8, 37, 24, 12, 3, 10, 79],
+        [20160321, 0.494, 0.333, 0.625, 44, 31, 13, 10, 16, 109],
+        [20160323, 0.448, 0.441, 0.75, 50, 23, 9, 5, 12, 114],
+        [20160325, 0.489, 0.467, 0.913, 40, 30, 8, 10, 7, 128],
+        [20160327, 0.53, 0.424, 0.75, 44, 32, 9, 4, 18, 117],
+        [20160329, 0.438, 0.343, 0.722, 46, 19, 6, 6, 18, 103],
+        [20160330, 0.458, 0.465, 0.769, 41, 25, 12, 7, 22, 106],
+        [20160401, 0.568, 0.6, 0.818, 43, 29, 5, 8, 12, 136],
+        [20160403, 0.5, 0.343, 0.875, 46, 35, 9, 5, 23, 117],
+        [20160405, 0.542, 0.48, 0.909, 43, 33, 8, 2, 15, 112],
+        [20160407, 0.448, 0.278, 0.923, 48, 20, 3, 7, 11, 100],
+        [20160409, 0.442, 0.37, 0.778, 46, 19, 7, 6, 13, 92],
+        [20160410, 0.529, 0.426, 0.813, 51, 35, 7, 7, 17, 125]
     ];
     var schema = [{
         name: 'TL',
